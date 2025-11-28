@@ -23,6 +23,10 @@ export const metadata: Metadata = {
   verification: {
     google: "kMHJYqdKMSr_OQns84feU7o55nGSXYggxQwvsdBNXZE",
   },
+  icons: {
+    icon: "/images/basma-blue-logo.png",
+    apple: "/images/basma-blue-logo.png",
+  },
 }
 
 export default function RootLayout({
