@@ -1126,24 +1126,24 @@ export const menuData: MenuCategory[] = [
   },
 ]
 
+export const allergenMap: { [key: number]: string } = {
+  1: "Gluten",
+  2: "Skorupiaki",
+  3: "Jaja",
+  4: "Ryby",
+  5: "Orzeszki ziemne",
+  6: "Soja",
+  7: "Mleko",
+  8: "Orzechy",
+  9: "Seler",
+  10: "Gorczyca",
+  11: "Sezam",
+  12: "Dwutlenek siarki",
+  13: "Łubin",
+  14: "Mięczaki",
+}
+
 // Helper function to get allergen names
 export const getAllergenNames = (allergenNumbers: number[]): string[] => {
-  const allergenMap: { [key: number]: string } = {
-    1: "Gluten",
-    2: "Skorupiaki",
-    3: "Jaja",
-    4: "Ryby",
-    5: "Orzeszki ziemne",
-    6: "Soja",
-    7: "Mleko",
-    8: "Orzechy",
-    9: "Seler",
-    10: "Gorczyca",
-    11: "Sezam",
-    12: "Dwutlenek siarki",
-    13: "Łubin",
-    14: "Mięczaki",
-  }
-
   return allergenNumbers.map((num) => allergenMap[num]).filter(Boolean)
 }

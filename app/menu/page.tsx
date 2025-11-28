@@ -1,14 +1,16 @@
 "use client"
 import Link from "next/link"
-import { useState, useEffect } from "react"
-import { Home, BookOpen, MessageCircle, Coffee, Utensils, Wine, X, Share2, ChevronUp } from "lucide-react"
+import { useState, useEffect, useMemo } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Home, BookOpen, MessageCircle, Coffee, Utensils, Wine, X, Share2, ChevronUp, Filter } from "lucide-react"
 import { Archivo } from "next/font/google"
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { menuData, getAllergenNames } from "./menu-data"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { menuData, allergenMap } from "./menu-data"
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -31,7 +33,20 @@ const IconMap = {
 
 export default function MenuPage() {
   const [activeSection, setActiveSection] = useState("sniadania")
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null)
+  const [activeAllergen, setActiveAllergen] = useState<number | null>(null)
+
+  // Filter Logic
+  const toggleAllergen = (id: number) => {
+    setActiveAllergen(activeAllergen === id ? null : id)
+  }
+
+  const isDishSafe = (allergens: number[] | undefined) => {
+    if (!activeAllergen) return true
+    // If activeAllergen is selected, dish is safe ONLY if it DOES NOT contain that allergen
+    return !allergens?.includes(activeAllergen)
+  }
   const [showBackToMenu, setShowBackToMenu] = useState(false)
 
   // Handle browser back button for modal
@@ -98,8 +113,8 @@ export default function MenuPage() {
     }
   }
 
-  const openImageModal = (imageSrc: string) => {
-    setSelectedImage(imageSrc)
+  const openImageModal = (imageSrc: string, altText: string) => {
+    setSelectedImage({ src: imageSrc, alt: altText })
   }
 
   const closeImageModal = () => {
@@ -179,6 +194,51 @@ ${shareData.url}`)
         </div>
       </header>
 
+      {/* Sticky Filter Bar */}
+      <div className="sticky top-0 z-40 bg-[#2B2B2B]/95 backdrop-blur-md border-b border-white/10 py-4 shadow-xl">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center gap-3 mb-2">
+            <Filter className="h-4 w-4 text-[#BA9D76]" />
+            <span className={`text-sm font-medium text-[#BA9D76] ${archivo.className}`}>Filtruj alergeny (kliknij aby wykluczyć):</span>
+            {activeAllergen && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveAllergen(null)}
+                className="h-6 px-2 text-xs text-white/60 hover:text-white"
+              >
+                Wyczyść <X className="ml-1 h-3 w-3" />
+              </Button>
+            )}
+          </div>
+          <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex space-x-2 pb-2">
+              {Object.entries(allergenMap).map(([id, name]) => {
+                const allergenId = parseInt(id)
+                const isActive = activeAllergen === allergenId
+                return (
+                  <Button
+                    key={id}
+                    variant={isActive ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => toggleAllergen(allergenId)}
+                    className={`
+                      rounded-full border transition-all duration-300
+                      ${isActive
+                        ? "bg-red-500/20 border-red-500 text-red-500 hover:bg-red-500/30"
+                        : "border-white/10 text-white/60 hover:border-[#BA9D76] hover:text-[#BA9D76] bg-white/5"}
+                    `}
+                  >
+                    {isActive ? `Bez: ${name}` : name}
+                  </Button>
+                )
+              })}
+            </div>
+            <ScrollBar orientation="horizontal" className="bg-white/5" />
+          </ScrollArea>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="relative py-16 overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100">
         <div className="absolute inset-0 z-0">
@@ -207,11 +267,10 @@ ${shareData.url}`)
                   variant={activeSection === section.id ? "default" : "outline"}
                   className={`
                   flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105
-                  ${
-                    activeSection === section.id
+                  ${activeSection === section.id
                       ? "bg-[#BA9D76] text-white border-[#BA9D76] shadow-lg hover:bg-[#BA9D76]/90"
                       : "border-[#BA9D76] bg-white text-gray-700 hover:bg-[#BA9D76]/10 hover:text-[#BA9D76] hover:border-[#BA9D76]"
-                  }
+                    }
                 `}
                 >
                   <IconComponent className="h-4 w-4" />
@@ -242,14 +301,21 @@ ${shareData.url}`)
                   </h3>
 
                   <div className="grid gap-6 md:gap-8">
-                    {category.items.map((item, itemIndex) => (
-                      <Card
-                        key={itemIndex}
-                        className="bg-white border border-gray-200 hover:border-[#BA9D76]/40 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] shadow-sm overflow-hidden"
-                      >
-                        <CardContent className="p-6">
-                          <div className="flex flex-row gap-4">
-                            <div className="flex-1 min-w-0">
+                    {category.items.map((item, itemIndex) => {
+                      const isSafe = isDishSafe(item.allergens)
+
+                      return (
+                        <div
+                          key={itemIndex}
+                          className={`group relative flex flex-col md:flex-row gap-6 p-6 rounded-2xl border transition-all duration-500
+                          ${isSafe
+                              ? "bg-white border-gray-200 hover:border-[#BA9D76]/40 hover:shadow-lg hover:scale-[1.02]"
+                              : "bg-gray-50 border-gray-100 opacity-40 grayscale-[0.8] scale-[0.98]"}
+                        `}
+                        >
+                          {/* Content Section */}
+                          <div className="flex-1 min-w-0 flex flex-col justify-between order-2 md:order-1">
+                            <div>
                               <div className="flex items-start justify-between mb-2">
                                 <div className="flex-1 pr-4">
                                   <h4 className={`text-xl font-semibold text-gray-900 ${archivo.className}`}>
@@ -275,6 +341,7 @@ ${shareData.url}`)
                                   </Button>
                                 </div>
                               </div>
+
                               {item.description && (
                                 <p
                                   className={`text-gray-600 text-sm leading-relaxed mb-3 font-light ${archivo.className}`}
@@ -288,17 +355,25 @@ ${shareData.url}`)
                                 <div className="mb-3">
                                   <div className="flex flex-wrap gap-1">
                                     <span className={`text-xs text-gray-500 mr-2 ${archivo.className}`}>Alergeny:</span>
-                                    {item.allergens.map((allergenNum) => (
-                                      <Badge
-                                        key={allergenNum}
-                                        variant="secondary"
-                                        className="bg-[#BA9D76]/10 text-[#BA9D76] hover:bg-[#BA9D76]/20 text-xs border border-[#BA9D76]/20 cursor-pointer transition-all duration-200 hover:scale-105"
-                                        title={`Kliknij aby zobaczyć wykaz alergenów - ${getAllergenNames([allergenNum])[0]}`}
-                                        onClick={scrollToAllergenLegend}
-                                      >
-                                        {allergenNum}
-                                      </Badge>
-                                    ))}
+                                    {item.allergens.map((allergenNum) => {
+                                      const isConflict = activeAllergen === allergenNum
+                                      return (
+                                        <Badge
+                                          key={allergenNum}
+                                          variant="secondary"
+                                          className={`
+                                            text-xs border cursor-pointer transition-all duration-200 hover:scale-105
+                                            ${isConflict
+                                              ? "bg-red-100 text-red-600 border-red-200 font-bold"
+                                              : "bg-[#BA9D76]/10 text-[#BA9D76] hover:bg-[#BA9D76]/20 border-[#BA9D76]/20"}
+                                          `}
+                                          title={`Kliknij aby zobaczyć wykaz alergenów - ${allergenMap[allergenNum]}`}
+                                          onClick={scrollToAllergenLegend}
+                                        >
+                                          {allergenNum}
+                                        </Badge>
+                                      )
+                                    })}
                                   </div>
                                 </div>
                               )}
@@ -314,45 +389,57 @@ ${shareData.url}`)
                                 </ul>
                               )}
                             </div>
-                            {item.image && (
-                              <div className="flex-shrink-0">
-                                <div
-                                  className="relative w-28 h-24 sm:w-36 sm:h-28 md:w-44 md:h-36 group cursor-pointer rounded-lg overflow-hidden border border-gray-200"
-                                  onClick={() => openImageModal(item.image!)}
-                                >
-                                  <Image
-                                    src={item.image || "/placeholder.svg"}
-                                    alt={item.name}
-                                    fill
-                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                  />
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-                                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
-                                      <span
-                                        className={`text-gray-800 text-xs font-medium font-light ${archivo.className}`}
-                                      >
-                                        Kliknij
-                                      </span>
-                                    </div>
+                          </div>
+
+                          {/* Image Section */}
+                          {item.image && (
+                            <div className="flex-shrink-0 order-1 md:order-2">
+                              <div
+                                className="relative w-full md:w-44 h-48 md:h-36 group cursor-pointer rounded-lg overflow-hidden border border-gray-200"
+                                onClick={() => openImageModal(item.image!, item.name)}
+                              >
+                                <Image
+                                  src={item.image || "/placeholder.svg"}
+                                  alt={item.name}
+                                  fill
+                                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                                <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                  <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
+                                    <span
+                                      className={`text-gray-800 text-xs font-medium font-light ${archivo.className}`}
+                                    >
+                                      Kliknij
+                                    </span>
                                   </div>
                                 </div>
                               </div>
-                            )}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                            </div>
+                          )}
+
+                          {/* Warning Overlay */}
+                          {!isSafe && activeAllergen && (
+                            <div className="absolute top-4 right-4 bg-red-500/90 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg backdrop-blur-sm animate-pulse z-20">
+                              Zawiera {allergenMap[activeAllergen]}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
                   </div>
 
-                  {category.notes && (
-                    <p className={`text-center text-gray-500 text-sm mt-6 italic font-light ${archivo.className}`}>
-                      {category.notes}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </section>
+                  {
+                    category.notes && (
+                      <p className={`text-center text-gray-500 text-sm mt-6 italic font-light ${archivo.className}`}>
+                        {category.notes}
+                      </p>
+                    )
+                  }
+                </div >
+              ))
+              }
+            </section >
           ))}
 
           {/* Allergen Legend */}
@@ -453,57 +540,61 @@ ${shareData.url}`)
               Jeśli masz pytania dotyczące alergenów, skontaktuj się z naszą obsługą
             </p>
           </div>
-        </div>
-      </main>
+        </div >
+      </main >
 
       {/* Image Modal */}
-      {selectedImage && (
-        <div
-          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={closeImageModal}
-        >
-          <div className="relative max-w-6xl max-h-[95vh] w-full h-full flex items-center justify-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation()
-                closeImageModal()
-              }}
-              className="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 border border-white/20"
-            >
-              <X className="h-6 w-6" />
-            </Button>
-            <div
-              className="relative w-full h-full flex items-center justify-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Image
-                src={selectedImage || "/placeholder.svg"}
-                alt="Powiększone zdjęcie dania"
-                width={1200}
-                height={800}
-                className="object-contain max-w-full max-h-full rounded-lg shadow-2xl"
-                priority
-              />
+      {
+        selectedImage && (
+          <div
+            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={closeImageModal}
+          >
+            <div className="relative max-w-6xl max-h-[95vh] w-full h-full flex items-center justify-center">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  closeImageModal()
+                }}
+                className="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 border border-white/20"
+              >
+                <X className="h-6 w-6" />
+              </Button>
+              <div
+                className="relative w-full h-full flex items-center justify-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Image
+                  src={selectedImage || "/placeholder.svg"}
+                  alt="Powiększone zdjęcie dania"
+                  width={1200}
+                  height={800}
+                  className="object-contain max-w-full max-h-full rounded-lg shadow-2xl"
+                  priority
+                />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       {/* Floating Back to Menu Button */}
-      {showBackToMenu && (
-        <Button
-          onClick={scrollToMenuNavigation}
-          className="fixed bottom-6 right-6 z-40 bg-[#BA9D76] hover:bg-[#BA9D76]/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-4 border-2 border-white/20"
-          size="lg"
-        >
-          <div className="flex flex-col items-center gap-1">
-            <ChevronUp className="h-5 w-5" />
-            <span className={`text-xs font-light ${archivo.className}`}>Menu</span>
-          </div>
-        </Button>
-      )}
-    </div>
+      {
+        showBackToMenu && (
+          <Button
+            onClick={scrollToMenuNavigation}
+            className="fixed bottom-6 right-6 z-40 bg-[#BA9D76] hover:bg-[#BA9D76]/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-4 border-2 border-white/20"
+            size="lg"
+          >
+            <div className="flex flex-col items-center gap-1">
+              <ChevronUp className="h-5 w-5" />
+              <span className={`text-xs font-light ${archivo.className}`}>Menu</span>
+            </div>
+          </Button>
+        )
+      }
+    </div >
   )
 }
