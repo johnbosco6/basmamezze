@@ -8,6 +8,7 @@ import { Archivo } from "next/font/google"
 import { Button } from "@/components/ui/button"
 import { HoursWidget } from "@/components/hours-widget"
 import { HeaderHoursWidget } from "@/components/header-hours-widget"
+import { FloatingChefBot } from "@/components/floating-chef-bot"
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -779,6 +780,9 @@ export default function HomePage() {
           </div>
         </div>
       )}
+
+      {/* Floating Chef Bot - Only on Home Page */}
+      <FloatingChefBot />
     </div>
   )
 }
