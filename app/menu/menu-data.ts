@@ -118,6 +118,7 @@ export const menuData: MenuCategory[] = [
             description:
               "W ofercie restauracji znajdują się sezonowa zupa mięsna i sezonowa zupa wegetariańska. O aktualną dostępność zapytaj obsługę",
             price: "25 zł",
+            image: "/images/menu/seasonal-soup.jpg",
           },
         ],
       },
@@ -160,6 +161,7 @@ export const menuData: MenuCategory[] = [
             name: "Hummus z Białej Fasoli",
             description: "Pasta z białej fasoli i masła sezamowego z przyprawami",
             price: "9 zł",
+            image: "/images/menu/hummus-white-bean.jpg",
           },
           {
             id: "mix-pikli",
@@ -206,6 +208,7 @@ export const menuData: MenuCategory[] = [
             name: "Kibbeh",
             description: "Smażona kulka z kaszy bulgur z jagnięciną, cebulą i przyprawami",
             price: "11 zł",
+            image: "/images/menu/kibbeh.jpg",
           },
           {
             id: "tabbouleh-basma",
@@ -236,12 +239,14 @@ export const menuData: MenuCategory[] = [
             name: "Grillowana Papryka na Labneh",
             description: "Grillowana papryka podana na labneh",
             price: "12 zł",
+            image: "/images/menu/grilled-pepper-labneh.jpg",
           },
           {
             id: "labneh-basma",
             name: "Labneh by BASMA",
             description: "Kremowy serek z konfitowanym czosnkiem, natką pietruszki i prażonym sezamem",
             price: "12 zł",
+            image: "/images/menu/labneh-basma.jpg",
           },
           {
             id: "ubijana-feta",
@@ -406,6 +411,7 @@ export const menuData: MenuCategory[] = [
             description:
               "Grillowany bakłażan z hummusem z białej fasoli, tabbouleh, rodzynkami i migdałami",
             price: "39 zł",
+            image: "/images/menu/grilled-aubergine.jpg",
           },
           {
             id: "cauliflower-labneh",
@@ -431,6 +437,7 @@ export const menuData: MenuCategory[] = [
             name: "Talerz Odkrywcy",
             description: "Nuggety z piersi kurczaka, frytki, tzatziki, labneh, ogórek, pomidor",
             price: "36 zł",
+            image: "/images/menu/explorer-plate.jpg",
           },
         ],
       },
@@ -449,6 +456,7 @@ export const menuData: MenuCategory[] = [
             description:
               "Kasza bulgur, ogórek, pomidor, czerwona cebula, natka pietruszki, mięta, oliwa, sok z cytryny, melasa z granatu",
             price: "38 zł",
+            image: "/images/menu/syrian-salad-basma.jpg",
           },
           {
             id: "fattoush",
@@ -475,18 +483,21 @@ export const menuData: MenuCategory[] = [
             name: "Kunafa",
             description: "Ciasto kataifi, mozzarella, syrop cukrowy, woda różana",
             price: "25 zł",
+            image: "/images/menu/kunafa.jpg",
           },
           {
             id: "sekerpare",
             name: "Sekerpare",
             description: "2 x ciasteczko z orzechem laskowym, nasączone syropem",
             price: "9 zł",
+            image: "/images/menu/sekerpare.jpg",
           },
           {
             id: "baked-figs",
             name: "Pieczone Figi",
             description: "Figi, orzechy włoskie, miód, ciasto kataifi, labneh",
             price: "35 zł",
+            image: "/images/menu/baked-figs.jpg",
           },
           {
             id: "dubai-dream",
