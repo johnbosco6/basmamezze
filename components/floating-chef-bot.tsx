@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Clock, Phone, Mail, ChefHat, X } from "lucide-react"
+import { useState, useEffect, useMemo } from "react"
+import { Clock, Phone, Mail, ChefHat, X, Sparkles, Utensils, Flame, Leaf, Heart } from "lucide-react"
 import { Archivo } from "next/font/google"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { menuData } from "@/app/menu/menu-data"
 
 const archivo = Archivo({
     subsets: ["latin"],
@@ -60,12 +61,64 @@ function getCurrentStatus() {
     }
 
     return { isOpen: false, nextOpening }
+    return { isOpen: false, nextOpening }
+}
+
+const FACTS = [
+    "Hummus oznacza po arabsku po prostu 'ciecierzyca'.",
+    "Baklava ma 33 warstwy ciasta, co symbolizuje lata życia Chrystusa.",
+    "Kawa po turecku jest wpisana na listę niematerialnego dziedzictwa UNESCO.",
+    "Słowo 'Mezze' pochodzi od perskiego 'mazze', co oznacza 'smak'.",
+    "W kulturze Bliskiego Wschodu gościnność jest najważniejszą cnotą.",
+]
+
+type Mood = "spicy" | "light" | "sweet" | "hearty"
+
+const MOODS: { id: Mood; label: string; icon: any; color: string }[] = [
+    { id: "spicy", label: "Pikantne", icon: Flame, color: "text-red-500" },
+    { id: "light", label: "Lekkie", icon: Leaf, color: "text-green-500" },
+    { id: "sweet", label: "Słodkie", icon: Sparkles, color: "text-yellow-500" },
+    { id: "hearty", label: "Syte", icon: Heart, color: "text-orange-500" },
+]
+
+const RECOMMENDATIONS: Record<Mood, string[]> = {
+    spicy: ["szakszuka-kofta", "syrian-sandwich", "adana-kebap", "spicy-eggplant", "harissa"],
+    light: ["tabbouleh", "fattoush", "greek-sandwich", "labneh", "hummus-classic"],
+    sweet: ["kunafa", "dubai-dream", "creme-brulee-basma", "labneh-sweet"],
+    hearty: ["meat-platter-2", "lamb-chops", "kofty-jagniece", "szakszuka-kofta"],
 }
 
 export function FloatingChefBot() {
     const [isOpen, setIsOpen] = useState(false)
     const [status, setStatus] = useState(getCurrentStatus())
     const [currentTime, setCurrentTime] = useState(new Date())
+    const [selectedMood, setSelectedMood] = useState<Mood | null>(null)
+    const [currentFact, setCurrentFact] = useState(FACTS[0])
+    const [recommendation, setRecommendation] = useState<any | null>(null)
+
+    useEffect(() => {
+        setCurrentFact(FACTS[Math.floor(Math.random() * FACTS.length)])
+    }, [isOpen])
+
+    const handleMoodSelect = (mood: Mood) => {
+        setSelectedMood(mood)
+        const possibleIds = RECOMMENDATIONS[mood]
+        const randomId = possibleIds[Math.floor(Math.random() * possibleIds.length)]
+
+        // Find the item in menuData
+        let foundItem = null
+        for (const section of menuData) {
+            for (const category of section.categories) {
+                const item = category.items.find(i => i.id === randomId)
+                if (item) {
+                    foundItem = item
+                    break
+                }
+            }
+            if (foundItem) break
+        }
+        setRecommendation(foundItem)
+    }
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -90,7 +143,7 @@ export function FloatingChefBot() {
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="fixed bottom-6 right-6 z-50 group"
-                aria-label="Asystent Szefa Kuchni"
+                aria-label="Basma Quick Help"
             >
                 <div className="relative">
                     {/* Pulsing glow effect */}
@@ -125,7 +178,7 @@ export function FloatingChefBot() {
                                 <div className="flex items-center justify-between mb-3">
                                     <div className="flex items-center gap-2">
                                         <ChefHat className="h-5 w-5 text-[#BA9D76]" />
-                                        <h3 className={`text-white font-semibold ${archivo.className}`}>Asystent Szefa</h3>
+                                        <h3 className={`text-white font-semibold ${archivo.className}`}>Basma Quick Help</h3>
                                     </div>
                                     <button
                                         onClick={() => setIsOpen(false)}
@@ -165,7 +218,68 @@ export function FloatingChefBot() {
                             </div>
 
                             {/* Content */}
-                            <div className="p-6 space-y-4">
+                            <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
+
+                                {/* Order Online Button */}
+                                <a
+                                    href="https://www.pyszne.pl/menu/basma-mezze-grill"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block w-full"
+                                >
+                                    <Button className="w-full bg-[#FF8000] hover:bg-[#E67300] text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 animate-pulse">
+                                        <Utensils className="mr-2 h-4 w-4" />
+                                        <span className={archivo.className}>Zamów Online (Pyszne.pl)</span>
+                                    </Button>
+                                </a>
+
+                                {/* Mood Selector */}
+                                <div className="space-y-3">
+                                    <h4 className={`text-sm font-semibold text-[#BA9D76] uppercase tracking-wide ${archivo.className}`}>
+                                        Na co masz ochotę?
+                                    </h4>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {MOODS.map((mood) => (
+                                            <button
+                                                key={mood.id}
+                                                onClick={() => handleMoodSelect(mood.id)}
+                                                className={`p-2 rounded-lg border transition-all duration-300 flex flex-col items-center gap-1
+                                                    ${selectedMood === mood.id
+                                                        ? "bg-[#BA9D76]/20 border-[#BA9D76] text-white"
+                                                        : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:border-white/30"
+                                                    }`}
+                                            >
+                                                <mood.icon className={`h-5 w-5 ${mood.color}`} />
+                                                <span className={`text-xs ${archivo.className}`}>{mood.label}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Recommendation Result */}
+                                {recommendation && (
+                                    <div className="bg-white/10 rounded-lg p-3 border border-[#BA9D76]/30 animate-slide-up">
+                                        <p className={`text-xs text-[#BA9D76] mb-1 ${archivo.className}`}>Polecam spróbować:</p>
+                                        <h5 className={`text-white font-semibold mb-1 ${archivo.className}`}>{recommendation.name}</h5>
+                                        <p className={`text-white/70 text-xs line-clamp-2 mb-2 ${archivo.className}`}>{recommendation.description}</p>
+                                        <Link href="/menu" onClick={() => setIsOpen(false)}>
+                                            <span className="text-xs text-[#BA9D76] hover:underline cursor-pointer">Zobacz w menu →</span>
+                                        </Link>
+                                    </div>
+                                )}
+
+                                {/* Did You Know */}
+                                <div className="bg-[#BA9D76]/10 rounded-lg p-3 border border-[#BA9D76]/20">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Sparkles className="h-3 w-3 text-[#BA9D76]" />
+                                        <span className={`text-xs font-semibold text-[#BA9D76] ${archivo.className}`}>Czy wiesz, że...</span>
+                                    </div>
+                                    <p className={`text-white/80 text-xs italic ${archivo.className}`}>
+                                        "{currentFact}"
+                                    </p>
+                                </div>
+
+                                <div className="h-px bg-white/10" />
                                 {/* Reservation Section */}
                                 <div className="space-y-2">
                                     <h4 className={`text-sm font-semibold text-[#BA9D76] uppercase tracking-wide ${archivo.className}`}>
