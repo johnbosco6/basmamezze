@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { Clock, Phone, Mail, ChefHat, X, Sparkles, Utensils, Flame, Leaf, Heart } from "lucide-react"
+import { Clock, Phone, Mail, ChefHat, X, Sparkles, Utensils, Flame, Leaf, Heart, Facebook, Instagram, Star } from "lucide-react"
 import { Archivo } from "next/font/google"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -218,7 +218,7 @@ export function FloatingChefBot() {
                             </div>
 
                             {/* Content */}
-                            <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
+                            <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
 
                                 {/* Order Online Button */}
                                 <a
@@ -277,6 +277,45 @@ export function FloatingChefBot() {
                                     <p className={`text-white/80 text-xs italic ${archivo.className}`}>
                                         "{currentFact}"
                                     </p>
+                                </div>
+
+                                <div className="h-px bg-white/10" />
+
+                                {/* Social & Rating */}
+                                <div className="grid grid-cols-2 gap-3">
+                                    <a
+                                        href="https://www.tripadvisor.com/Restaurant_Review-g274818-d33304979-Reviews-Basma_Mezze_Grill-Lublin_Lublin_Province_Eastern_Poland.html"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="col-span-2"
+                                    >
+                                        <Button variant="outline" className="w-full border-[#BA9D76] text-[#BA9D76] hover:bg-[#BA9D76] hover:text-white transition-colors">
+                                            <Star className="mr-2 h-4 w-4" />
+                                            <span className={archivo.className}>Oceń nas na TripAdvisor</span>
+                                        </Button>
+                                    </a>
+
+                                    <a
+                                        href="https://www.facebook.com/Basmamezze"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Button className="w-full bg-[#1877F2] text-white hover:bg-[#1877F2]/90 transition-colors border-none">
+                                            <Facebook className="mr-2 h-4 w-4" fill="currentColor" strokeWidth={0} />
+                                            <span className={archivo.className}>Facebook</span>
+                                        </Button>
+                                    </a>
+
+                                    <a
+                                        href="https://www.instagram.com/basma.mezze/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Button className="w-full bg-[#E4405F] text-white hover:bg-[#E4405F]/90 transition-colors border-none">
+                                            <Instagram className="mr-2 h-4 w-4" strokeWidth={2.5} />
+                                            <span className={archivo.className}>Instagram</span>
+                                        </Button>
+                                    </a>
                                 </div>
 
                                 <div className="h-px bg-white/10" />
