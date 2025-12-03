@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { Clock, Phone, Mail, ChefHat, X, Sparkles, Utensils, Flame, Leaf, Heart, Facebook, Instagram, Star } from "lucide-react"
+import { Clock, Phone, Mail, ChefHat, X, Sparkles, Utensils, Flame, Leaf, Heart, Facebook, Instagram, Star, Calendar } from "lucide-react"
 import { Archivo } from "next/font/google"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -232,6 +232,14 @@ export function FloatingChefBot() {
                                         <span className={archivo.className}>Zamów Online (Pyszne.pl)</span>
                                     </Button>
                                 </a>
+
+                                {/* Special Events Menu Button */}
+                                <Link href="/menu#specjalne-okazje" onClick={() => setIsOpen(false)} className="block w-full">
+                                    <Button className="w-full bg-gradient-to-r from-[#BA9D76] to-[#8B7355] hover:from-[#A68B66] hover:to-[#7A6548] text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                                        <Calendar className="mr-2 h-4 w-4" />
+                                        <span className={archivo.className}>Menu na Specjalne Okazje</span>
+                                    </Button>
+                                </Link>
 
                                 {/* Mood Selector */}
                                 <div className="space-y-3">

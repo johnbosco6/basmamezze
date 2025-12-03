@@ -36,7 +36,7 @@ export default function MenuPage() {
   const [activeSection, setActiveSection] = useState("sniadania")
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null)
-  const [activeAllergen, setActiveAllergen] = useState<number | null>(null)
+  const [activeAllergens, setActiveAllergens] = useState<number[]>([])
   const [expandedPackages, setExpandedPackages] = useState<Record<string, boolean>>({})
 
   // Toggle package expansion
@@ -49,13 +49,18 @@ export default function MenuPage() {
 
   // Filter Logic
   const toggleAllergen = (id: number) => {
-    setActiveAllergen(activeAllergen === id ? null : id)
+    setActiveAllergens(prev =>
+      prev.includes(id)
+        ? prev.filter(a => a !== id)
+        : [...prev, id]
+    )
   }
 
   const isDishSafe = (allergens: number[] | undefined) => {
-    if (!activeAllergen) return true
-    // If activeAllergen is selected, dish is safe ONLY if it DOES NOT contain that allergen
-    return !allergens?.includes(activeAllergen)
+    if (activeAllergens.length === 0) return true
+    if (!allergens) return true
+    // Dish is unsafe if it contains ANY of the selected active allergens
+    return !allergens.some(allergen => activeAllergens.includes(allergen))
   }
   const [showBackToMenu, setShowBackToMenu] = useState(false)
 
@@ -210,11 +215,11 @@ ${shareData.url}`)
           <div className="flex items-center gap-3 mb-2">
             <Filter className="h-4 w-4 text-[#BA9D76]" />
             <span className={`text-sm font-medium text-[#BA9D76] ${archivo.className}`}>Filtruj alergeny (kliknij aby wykluczyć):</span>
-            {activeAllergen && (
+            {activeAllergens.length > 0 && (
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setActiveAllergen(null)}
+                onClick={() => setActiveAllergens([])}
                 className="h-6 px-2 text-xs text-white/60 hover:text-white"
               >
                 Wyczyść <X className="ml-1 h-3 w-3" />
@@ -225,7 +230,7 @@ ${shareData.url}`)
             <div className="flex space-x-2 pb-2">
               {Object.entries(allergenMap).map(([id, name]) => {
                 const allergenId = parseInt(id)
-                const isActive = activeAllergen === allergenId
+                const isActive = activeAllergens.includes(allergenId)
                 return (
                   <Button
                     key={id}
@@ -390,7 +395,7 @@ ${shareData.url}`)
                                                     <div className="flex flex-wrap gap-1">
                                                       <span className={`text-xs text-gray-500 mr-2 ${archivo.className}`}>Alergeny:</span>
                                                       {item.allergens.map((allergenNum) => {
-                                                        const isConflict = activeAllergen === allergenNum
+                                                        const isConflict = activeAllergens.includes(allergenNum)
                                                         return (
                                                           <Badge
                                                             key={allergenNum}
@@ -414,9 +419,9 @@ ${shareData.url}`)
                                             </div>
 
                                             {/* Warning Overlay */}
-                                            {!isSafe && activeAllergen && (
+                                            {!isSafe && activeAllergens.length > 0 && (
                                               <div className="absolute top-2 right-2 bg-red-500/90 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg backdrop-blur-sm animate-pulse z-20">
-                                                Zawiera {allergenMap[activeAllergen]}
+                                                Zawiera: {item.allergens?.filter(a => activeAllergens.includes(a)).map(a => allergenMap[a]).join(", ")}
                                               </div>
                                             )}
                                           </div>
@@ -499,7 +504,7 @@ ${shareData.url}`)
                                   <div className="flex flex-wrap gap-1">
                                     <span className={`text-xs text-gray-500 mr-2 ${archivo.className}`}>Alergeny:</span>
                                     {item.allergens.map((allergenNum) => {
-                                      const isConflict = activeAllergen === allergenNum
+                                      const isConflict = activeAllergens.includes(allergenNum)
                                       return (
                                         <Badge
                                           key={allergenNum}
@@ -560,9 +565,9 @@ ${shareData.url}`)
                           )}
 
                           {/* Warning Overlay */}
-                          {!isSafe && activeAllergen && (
+                          {!isSafe && activeAllergens.length > 0 && (
                             <div className="absolute top-4 right-4 bg-red-500/90 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg backdrop-blur-sm animate-pulse z-20">
-                              Zawiera {allergenMap[activeAllergen]}
+                              Zawiera: {item.allergens?.filter(a => activeAllergens.includes(a)).map(a => allergenMap[a]).join(", ")}
                             </div>
                           )}
                         </div>
