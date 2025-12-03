@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { useState, useEffect, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Home, BookOpen, MessageCircle, Coffee, Utensils, Wine, X, Share2, ChevronUp, Filter } from "lucide-react"
+import { Home, BookOpen, MessageCircle, Coffee, Utensils, Wine, X, Share2, ChevronUp, ChevronDown, Filter, Calendar } from "lucide-react"
 import { Archivo } from "next/font/google"
 import Image from "next/image"
 
@@ -29,6 +29,7 @@ const IconMap = {
   dodatki: Utensils,
   napoje: Wine,
   alkohole: Wine,
+  "specjalne-okazje": Calendar,
 }
 
 export default function MenuPage() {
@@ -36,6 +37,15 @@ export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null)
   const [activeAllergen, setActiveAllergen] = useState<number | null>(null)
+  const [expandedPackages, setExpandedPackages] = useState<Record<string, boolean>>({})
+
+  // Toggle package expansion
+  const togglePackage = (packageId: string) => {
+    setExpandedPackages(prev => ({
+      ...prev,
+      [packageId]: !prev[packageId]
+    }))
+  }
 
   // Filter Logic
   const toggleAllergen = (id: number) => {
@@ -226,8 +236,7 @@ ${shareData.url}`)
                       rounded-full border transition-all duration-300
                       ${isActive
                         ? "bg-red-500/20 border-red-500 text-red-500 hover:bg-red-500/30"
-                        : "border-white/10 text-white/60 hover:border-[#BA9D76] hover:text-[#BA9D76] bg-white/5"}
-                    `}
+                        : "border-white/10 text-white/60 hover:border-[#BA9D76] hover:text-[#BA9D76] bg-white/5"}`}
                   >
                     {isActive ? `Bez: ${name}` : name}
                   </Button>
@@ -269,9 +278,7 @@ ${shareData.url}`)
                   flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105
                   ${activeSection === section.id
                       ? "bg-[#BA9D76] text-white border-[#BA9D76] shadow-lg hover:bg-[#BA9D76]/90"
-                      : "border-[#BA9D76] bg-white text-gray-700 hover:bg-[#BA9D76]/10 hover:text-[#BA9D76] hover:border-[#BA9D76]"
-                    }
-                `}
+                      : "border-[#BA9D76] bg-white text-gray-700 hover:bg-[#BA9D76]/10 hover:text-[#BA9D76] hover:border-[#BA9D76]"}`}
                 >
                   <IconComponent className="h-4 w-4" />
                   {section.sectionTitle}
@@ -294,6 +301,147 @@ ${shareData.url}`)
                 <div className="w-24 h-1 bg-gradient-to-r from-[#BA9D76] to-[#597FB1] mx-auto rounded-full"></div>
               </div>
 
+              {/* Render packages if this is a package section */}
+              {section.isPackageSection && section.packages ? (
+                <>
+                  {section.packages.map((pkg) => {
+                    const isExpanded = expandedPackages[pkg.packageId]
+                    return (
+                      <div key={pkg.packageId} className="mb-12">
+                        {/* Package Header - Clickable */}
+                        <div
+                          onClick={() => togglePackage(pkg.packageId)}
+                          className="cursor-pointer bg-gradient-to-r from-[#BA9D76]/10 to-[#597FB1]/10 border-2 border-[#BA9D76]/30 rounded-2xl p-6 mb-6 hover:shadow-lg transition-all duration-300 hover:scale-[1.01]"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1">
+                              <h3 className={`text-2xl md:text-3xl font-semibold text-gray-900 mb-2 ${archivo.className}`}>
+                                {pkg.packageName}
+                              </h3>
+                              <p className={`text-xl text-[#BA9D76] font-semibold ${archivo.className}`}>
+                                {pkg.packagePrice}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <span className={`text-sm text-gray-600 font-light ${archivo.className}`}>
+                                {isExpanded ? "Zwiń" : "Rozwiń"}
+                              </span>
+                              <div className={`p-2 rounded-full bg-[#BA9D76]/20 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}>
+                                <ChevronDown className="h-6 w-6 text-[#BA9D76]" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Package Content - Collapsible */}
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pl-4 border-l-4 border-[#BA9D76]/30">
+                                {pkg.categories.map((category, categoryIndex) => (
+                                  <div key={categoryIndex} className="mb-12">
+                                    <h4 className={`text-xl font-semibold mb-6 text-gray-800 ${archivo.className}`}>
+                                      {category.categoryName}
+                                    </h4>
+
+                                    <div className="grid gap-4 md:gap-6">
+                                      {category.items.map((item, itemIndex) => {
+                                        const isSafe = isDishSafe(item.allergens)
+
+                                        return (
+                                          <div
+                                            key={itemIndex}
+                                            className={`group relative flex flex-col md:flex-row gap-4 p-4 rounded-xl border transition-all duration-500
+                                            ${isSafe
+                                                ? "bg-white border-gray-200 hover:border-[#BA9D76]/40 hover:shadow-md"
+                                                : "bg-gray-50 border-gray-100 opacity-40 grayscale-[0.8] scale-[0.98]"}`}
+                                          >
+                                            {/* Content Section */}
+                                            <div className="flex-1 min-w-0 flex flex-col justify-between">
+                                              <div>
+                                                <div className="flex items-start justify-between mb-2">
+                                                  <div className="flex-1 pr-4">
+                                                    <h5 className={`text-lg font-semibold text-gray-900 ${archivo.className}`}>
+                                                      {item.name}
+                                                    </h5>
+                                                  </div>
+                                                  {item.price && (
+                                                    <span className={`text-gray-600 text-sm font-light ${archivo.className} whitespace-nowrap`}>
+                                                      {item.price}
+                                                    </span>
+                                                  )}
+                                                </div>
+
+                                                {item.description && (
+                                                  <p className={`text-gray-600 text-sm leading-relaxed mb-2 font-light ${archivo.className}`}>
+                                                    {item.description}
+                                                  </p>
+                                                )}
+
+                                                {/* Allergen Information */}
+                                                {item.allergens && item.allergens.length > 0 && (
+                                                  <div className="mb-2">
+                                                    <div className="flex flex-wrap gap-1">
+                                                      <span className={`text-xs text-gray-500 mr-2 ${archivo.className}`}>Alergeny:</span>
+                                                      {item.allergens.map((allergenNum) => {
+                                                        const isConflict = activeAllergen === allergenNum
+                                                        return (
+                                                          <Badge
+                                                            key={allergenNum}
+                                                            variant="secondary"
+                                                            className={`
+                                                              text-xs border cursor-pointer transition-all duration-200 hover:scale-105
+                                                              ${isConflict
+                                                                ? "bg-red-100 text-red-600 border-red-200 font-bold"
+                                                                : "bg-[#BA9D76]/10 text-[#BA9D76] hover:bg-[#BA9D76]/20 border-[#BA9D76]/20"}`}
+                                                            title={`Kliknij aby zobaczyć wykaz alergenów - ${allergenMap[allergenNum]}`}
+                                                            onClick={scrollToAllergenLegend}
+                                                          >
+                                                            {allergenNum}
+                                                          </Badge>
+                                                        )
+                                                      })}
+                                                    </div>
+                                                  </div>
+                                                )}
+                                              </div>
+                                            </div>
+
+                                            {/* Warning Overlay */}
+                                            {!isSafe && activeAllergen && (
+                                              <div className="absolute top-2 right-2 bg-red-500/90 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg backdrop-blur-sm animate-pulse z-20">
+                                                Zawiera {allergenMap[activeAllergen]}
+                                              </div>
+                                            )}
+                                          </div>
+                                        )
+                                      })}
+                                    </div>
+
+                                    {category.notes && (
+                                      <p className={`text-center text-gray-500 text-sm mt-4 italic font-light ${archivo.className}`}>
+                                        {category.notes}
+                                      </p>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )
+                  })}
+                </>
+              ) : null}
+
+              {/* Render regular categories */}
               {section.categories.map((category, categoryIndex) => (
                 <div key={categoryIndex} className="mb-16">
                   <h3 className={`text-2xl font-semibold mb-8 text-center text-gray-800 ${archivo.className}`}>
@@ -310,8 +458,7 @@ ${shareData.url}`)
                           className={`group relative flex flex-col md:flex-row gap-6 p-6 rounded-2xl border transition-all duration-500
                           ${isSafe
                               ? "bg-white border-gray-200 hover:border-[#BA9D76]/40 hover:shadow-lg hover:scale-[1.02]"
-                              : "bg-gray-50 border-gray-100 opacity-40 grayscale-[0.8] scale-[0.98]"}
-                        `}
+                              : "bg-gray-50 border-gray-100 opacity-40 grayscale-[0.8] scale-[0.98]"}`}
                         >
                           {/* Content Section */}
                           <div className="flex-1 min-w-0 flex flex-col justify-between order-2 md:order-1">
@@ -324,9 +471,7 @@ ${shareData.url}`)
                                 </div>
                                 <div className="flex items-center gap-2 flex-shrink-0">
                                   {item.price && (
-                                    <span
-                                      className={`text-gray-600 text-sm font-light ${archivo.className} whitespace-nowrap`}
-                                    >
+                                    <span className={`text-gray-600 text-sm font-light ${archivo.className} whitespace-nowrap`}>
                                       {item.price}
                                     </span>
                                   )}
@@ -343,9 +488,7 @@ ${shareData.url}`)
                               </div>
 
                               {item.description && (
-                                <p
-                                  className={`text-gray-600 text-sm leading-relaxed mb-3 font-light ${archivo.className}`}
-                                >
+                                <p className={`text-gray-600 text-sm leading-relaxed mb-3 font-light ${archivo.className}`}>
                                   {item.description}
                                 </p>
                               )}
@@ -365,8 +508,7 @@ ${shareData.url}`)
                                             text-xs border cursor-pointer transition-all duration-200 hover:scale-105
                                             ${isConflict
                                               ? "bg-red-100 text-red-600 border-red-200 font-bold"
-                                              : "bg-[#BA9D76]/10 text-[#BA9D76] hover:bg-[#BA9D76]/20 border-[#BA9D76]/20"}
-                                          `}
+                                              : "bg-[#BA9D76]/10 text-[#BA9D76] hover:bg-[#BA9D76]/20 border-[#BA9D76]/20"}`}
                                           title={`Kliknij aby zobaczyć wykaz alergenów - ${allergenMap[allergenNum]}`}
                                           onClick={scrollToAllergenLegend}
                                         >
@@ -408,9 +550,7 @@ ${shareData.url}`)
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
                                 <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                   <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
-                                    <span
-                                      className={`text-gray-800 text-xs font-medium font-light ${archivo.className}`}
-                                    >
+                                    <span className={`text-gray-800 text-xs font-medium font-light ${archivo.className}`}>
                                       Kliknij
                                     </span>
                                   </div>
@@ -430,17 +570,14 @@ ${shareData.url}`)
                     })}
                   </div>
 
-                  {
-                    category.notes && (
-                      <p className={`text-center text-gray-500 text-sm mt-6 italic font-light ${archivo.className}`}>
-                        {category.notes}
-                      </p>
-                    )
-                  }
-                </div >
-              ))
-              }
-            </section >
+                  {category.notes && (
+                    <p className={`text-center text-gray-500 text-sm mt-6 italic font-light ${archivo.className}`}>
+                      {category.notes}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </section>
           ))}
 
           {/* Allergen Legend */}
@@ -541,61 +678,57 @@ ${shareData.url}`)
               Jeśli masz pytania dotyczące alergenów, skontaktuj się z naszą obsługą
             </p>
           </div>
-        </div >
-      </main >
+        </div>
+      </main>
 
       {/* Image Modal */}
-      {
-        selectedImage && (
-          <div
-            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-            onClick={closeImageModal}
-          >
-            <div className="relative max-w-6xl max-h-[95vh] w-full h-full flex items-center justify-center">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  closeImageModal()
-                }}
-                className="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 border border-white/20"
-              >
-                <X className="h-6 w-6" />
-              </Button>
-              <div
-                className="relative w-full h-full flex items-center justify-center"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Image
-                  src={selectedImage.src || "/placeholder.svg"}
-                  alt={selectedImage.alt || "Powiększone zdjęcie dania"}
-                  width={1200}
-                  height={800}
-                  className="object-contain max-w-full max-h-full rounded-lg shadow-2xl"
-                  priority
-                />
-              </div>
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={closeImageModal}
+        >
+          <div className="relative max-w-6xl max-h-[95vh] w-full h-full flex items-center justify-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation()
+                closeImageModal()
+              }}
+              className="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 border border-white/20"
+            >
+              <X className="h-6 w-6" />
+            </Button>
+            <div
+              className="relative w-full h-full flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={selectedImage.src || "/placeholder.svg"}
+                alt={selectedImage.alt || "Powiększone zdjęcie dania"}
+                width={1200}
+                height={800}
+                className="object-contain max-w-full max-h-full rounded-lg shadow-2xl"
+                priority
+              />
             </div>
           </div>
-        )
-      }
+        </div>
+      )}
 
       {/* Floating Back to Menu Button */}
-      {
-        showBackToMenu && (
-          <Button
-            onClick={scrollToMenuNavigation}
-            className="fixed bottom-6 right-6 z-40 bg-[#BA9D76] hover:bg-[#BA9D76]/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-4 border-2 border-white/20"
-            size="lg"
-          >
-            <div className="flex flex-col items-center gap-1">
-              <ChevronUp className="h-5 w-5" />
-              <span className={`text-xs font-light ${archivo.className}`}>Menu</span>
-            </div>
-          </Button>
-        )
-      }
-    </div >
+      {showBackToMenu && (
+        <Button
+          onClick={scrollToMenuNavigation}
+          className="fixed bottom-6 right-6 z-40 bg-[#BA9D76] hover:bg-[#BA9D76]/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-4 border-2 border-white/20"
+          size="lg"
+        >
+          <div className="flex flex-col items-center gap-1">
+            <ChevronUp className="h-5 w-5" />
+            <span className={`text-xs font-light ${archivo.className}`}>Menu</span>
+          </div>
+        </Button>
+      )}
+    </div>
   )
 }
