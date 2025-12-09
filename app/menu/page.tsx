@@ -447,141 +447,269 @@ ${shareData.url}`)
               ) : null}
 
               {/* Render regular categories */}
-              {section.categories.map((category, categoryIndex) => (
-                <div key={categoryIndex} className="mb-16">
-                  <h3 className={`text-2xl font-semibold mb-8 text-center text-gray-800 ${archivo.className}`}>
-                    {category.categoryName}
-                  </h3>
+              {section.categories.map((category, categoryIndex) => {
+                if (section.isPackageSection) {
+                  const categoryId = `${section.id}-cat-${categoryIndex}`
+                  const isExpanded = expandedPackages[categoryId]
 
-                  <div className="grid gap-6 md:gap-8">
-                    {category.items.map((item, itemIndex) => {
-                      const isSafe = isDishSafe(item.allergens)
-
-                      return (
-                        <div
-                          key={itemIndex}
-                          className={`group relative flex flex-col md:flex-row gap-6 p-6 rounded-2xl border transition-all duration-500
-                          ${isSafe
-                              ? "bg-white border-gray-200 hover:border-[#BA9D76]/40 hover:shadow-lg hover:scale-[1.02]"
-                              : "bg-gray-50 border-gray-100 opacity-40 grayscale-[0.8] scale-[0.98]"}`}
-                        >
-                          {/* Content Section */}
-                          <div className="flex-1 min-w-0 flex flex-col justify-between order-2 md:order-1">
-                            <div>
-                              <div className="flex items-start justify-between mb-2">
-                                <div className="flex-1 pr-4">
-                                  <h4 className={`text-xl font-semibold text-gray-900 ${archivo.className}`}>
-                                    {item.name}
-                                  </h4>
-                                </div>
-                                <div className="flex items-center gap-2 flex-shrink-0">
-                                  {item.price && (
-                                    <span className={`text-gray-600 text-sm font-light ${archivo.className} whitespace-nowrap`}>
-                                      {item.price}
-                                    </span>
-                                  )}
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => shareMenuItem(item.name, item.description)}
-                                    className="text-gray-500 hover:text-[#BA9D76] hover:bg-gray-100 p-2"
-                                    title="Udostępnij danie"
-                                  >
-                                    <Share2 className="h-4 w-4" />
-                                  </Button>
-                                </div>
-                              </div>
-
-                              {item.description && (
-                                <p className={`text-gray-600 text-sm leading-relaxed mb-3 font-light ${archivo.className}`}>
-                                  {item.description}
-                                </p>
-                              )}
-
-                              {/* Allergen Information */}
-                              {item.allergens && item.allergens.length > 0 && (
-                                <div className="mb-3">
-                                  <div className="flex flex-wrap gap-1">
-                                    <span className={`text-xs text-gray-500 mr-2 ${archivo.className}`}>Alergeny:</span>
-                                    {item.allergens.map((allergenNum) => {
-                                      const isConflict = activeAllergens.includes(allergenNum)
-                                      return (
-                                        <Badge
-                                          key={allergenNum}
-                                          variant="secondary"
-                                          className={`
-                                            text-xs border cursor-pointer transition-all duration-200 hover:scale-105
-                                            ${isConflict
-                                              ? "bg-red-100 text-red-600 border-red-200 font-bold"
-                                              : "bg-[#BA9D76]/10 text-[#BA9D76] hover:bg-[#BA9D76]/20 border-[#BA9D76]/20"}`}
-                                          title={`Kliknij aby zobaczyć wykaz alergenów - ${allergenMap[allergenNum]}`}
-                                          onClick={scrollToAllergenLegend}
-                                        >
-                                          {allergenNum}
-                                        </Badge>
-                                      )
-                                    })}
-                                  </div>
-                                </div>
-                              )}
-
-                              {item.subItems && (
-                                <ul className="text-gray-600 text-sm space-y-1 mb-3">
-                                  {item.subItems.map((subItem, subIndex) => (
-                                    <li key={subIndex} className="flex items-center gap-2">
-                                      <span className="w-1 h-1 bg-[#BA9D76] rounded-full"></span>
-                                      <span className={`font-light ${archivo.className}`}>{subItem.name}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
+                  return (
+                    <div key={categoryIndex} className="mb-12">
+                      {/* Category Header - Collapsible */}
+                      <div
+                        onClick={() => togglePackage(categoryId)}
+                        className="cursor-pointer bg-gradient-to-r from-[#BA9D76]/10 to-[#597FB1]/10 border-2 border-[#BA9D76]/30 rounded-2xl p-6 mb-6 hover:shadow-lg transition-all duration-300 hover:scale-[1.01]"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <h3 className={`text-2xl md:text-3xl font-semibold text-gray-900 mb-2 ${archivo.className}`}>
+                              {category.categoryName}
+                            </h3>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className={`text-sm text-gray-600 font-light ${archivo.className}`}>
+                              {isExpanded ? "Zwiń" : "Rozwiń"}
+                            </span>
+                            <div className={`p-2 rounded-full bg-[#BA9D76]/20 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}>
+                              <ChevronDown className="h-6 w-6 text-[#BA9D76]" />
                             </div>
                           </div>
+                        </div>
+                      </div>
 
-                          {/* Image Section */}
-                          {item.image && (
-                            <div className="flex-shrink-0 order-1 md:order-2">
-                              <div
-                                className="relative w-full md:w-44 h-48 md:h-36 group cursor-pointer rounded-lg overflow-hidden border border-gray-200"
-                                onClick={() => openImageModal(item.image!, item.name)}
-                              >
-                                <Image
-                                  src={item.image || "/placeholder.svg"}
-                                  alt={item.name}
-                                  fill
-                                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-                                <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                  <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
-                                    <span className={`text-gray-800 text-xs font-medium font-light ${archivo.className}`}>
-                                      Kliknij
-                                    </span>
+                      {/* Category Content - Collapsible */}
+                      <AnimatePresence>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pl-4 border-l-4 border-[#BA9D76]/30">
+                              <div className="grid gap-4 md:gap-6">
+                                {category.items.map((item, itemIndex) => {
+                                  const isSafe = isDishSafe(item.allergens)
+
+                                  return (
+                                    <div
+                                      key={itemIndex}
+                                      className={`group relative flex flex-col md:flex-row gap-4 p-4 rounded-xl border transition-all duration-500
+                                      ${isSafe
+                                          ? "bg-white border-gray-200 hover:border-[#BA9D76]/40 hover:shadow-md"
+                                          : "bg-gray-50 border-gray-100 opacity-40 grayscale-[0.8] scale-[0.98]"}`}
+                                    >
+                                      {/* Content Section */}
+                                      <div className="flex-1 min-w-0 flex flex-col justify-between">
+                                        <div>
+                                          <div className="flex items-start justify-between mb-2">
+                                            <div className="flex-1 pr-4">
+                                              <h5 className={`text-lg font-semibold text-gray-900 ${archivo.className}`}>
+                                                {item.name}
+                                              </h5>
+                                            </div>
+                                            {item.price && (
+                                              <span className={`text-gray-600 text-sm font-light ${archivo.className} whitespace-nowrap`}>
+                                                {item.price}
+                                              </span>
+                                            )}
+                                          </div>
+
+                                          {item.description && (
+                                            <p className={`text-gray-600 text-sm leading-relaxed mb-2 font-light ${archivo.className}`}>
+                                              {item.description}
+                                            </p>
+                                          )}
+
+                                          {/* Allergen Information */}
+                                          {item.allergens && item.allergens.length > 0 && (
+                                            <div className="mb-2">
+                                              <div className="flex flex-wrap gap-1">
+                                                <span className={`text-xs text-gray-500 mr-2 ${archivo.className}`}>Alergeny:</span>
+                                                {item.allergens.map((allergenNum) => {
+                                                  const isConflict = activeAllergens.includes(allergenNum)
+                                                  return (
+                                                    <Badge
+                                                      key={allergenNum}
+                                                      variant="secondary"
+                                                      className={`
+                                                        text-xs border cursor-pointer transition-all duration-200 hover:scale-105
+                                                        ${isConflict
+                                                          ? "bg-red-100 text-red-600 border-red-200 font-bold"
+                                                          : "bg-[#BA9D76]/10 text-[#BA9D76] hover:bg-[#BA9D76]/20 border-[#BA9D76]/20"}`}
+                                                      title={`Kliknij aby zobaczyć wykaz alergenów - ${allergenMap[allergenNum]}`}
+                                                      onClick={scrollToAllergenLegend}
+                                                    >
+                                                      {allergenNum}
+                                                    </Badge>
+                                                  )
+                                                })}
+                                              </div>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+
+                                      {/* Warning Overlay */}
+                                      {!isSafe && activeAllergens.length > 0 && (
+                                        <div className="absolute top-2 right-2 bg-red-500/90 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg backdrop-blur-sm animate-pulse z-20">
+                                          Zawiera: {item.allergens?.filter(a => activeAllergens.includes(a)).map(a => allergenMap[a]).join(", ")}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )
+                                })}
+                              </div>
+
+                              {category.notes && (
+                                <p className={`text-center text-gray-500 text-sm mt-4 italic font-light ${archivo.className}`}>
+                                  {category.notes}
+                                </p>
+                              )}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )
+                }
+
+                return (
+                  <div key={categoryIndex} className="mb-16">
+                    <h3 className={`text-2xl font-semibold mb-8 text-center text-gray-800 ${archivo.className}`}>
+                      {category.categoryName}
+                    </h3>
+
+                    <div className="grid gap-6 md:gap-8">
+                      {category.items.map((item, itemIndex) => {
+                        const isSafe = isDishSafe(item.allergens)
+
+                        return (
+                          <div
+                            key={itemIndex}
+                            className={`group relative flex flex-col md:flex-row gap-6 p-6 rounded-2xl border transition-all duration-500
+                            ${isSafe
+                                ? "bg-white border-gray-200 hover:border-[#BA9D76]/40 hover:shadow-lg hover:scale-[1.02]"
+                                : "bg-gray-50 border-gray-100 opacity-40 grayscale-[0.8] scale-[0.98]"}`}
+                          >
+                            {/* Content Section */}
+                            <div className="flex-1 min-w-0 flex flex-col justify-between order-2 md:order-1">
+                              <div>
+                                <div className="flex items-start justify-between mb-2">
+                                  <div className="flex-1 pr-4">
+                                    <h4 className={`text-xl font-semibold text-gray-900 ${archivo.className}`}>
+                                      {item.name}
+                                    </h4>
+                                  </div>
+                                  <div className="flex items-center gap-2 flex-shrink-0">
+                                    {item.price && (
+                                      <span className={`text-gray-600 text-sm font-light ${archivo.className} whitespace-nowrap`}>
+                                        {item.price}
+                                      </span>
+                                    )}
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => shareMenuItem(item.name, item.description)}
+                                      className="text-gray-500 hover:text-[#BA9D76] hover:bg-gray-100 p-2"
+                                      title="Udostępnij danie"
+                                    >
+                                      <Share2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+
+                                {item.description && (
+                                  <p className={`text-gray-600 text-sm leading-relaxed mb-3 font-light ${archivo.className}`}>
+                                    {item.description}
+                                  </p>
+                                )}
+
+                                {/* Allergen Information */}
+                                {item.allergens && item.allergens.length > 0 && (
+                                  <div className="mb-3">
+                                    <div className="flex flex-wrap gap-1">
+                                      <span className={`text-xs text-gray-500 mr-2 ${archivo.className}`}>Alergeny:</span>
+                                      {item.allergens.map((allergenNum) => {
+                                        const isConflict = activeAllergens.includes(allergenNum)
+                                        return (
+                                          <Badge
+                                            key={allergenNum}
+                                            variant="secondary"
+                                            className={`
+                                              text-xs border cursor-pointer transition-all duration-200 hover:scale-105
+                                              ${isConflict
+                                                ? "bg-red-100 text-red-600 border-red-200 font-bold"
+                                                : "bg-[#BA9D76]/10 text-[#BA9D76] hover:bg-[#BA9D76]/20 border-[#BA9D76]/20"}`}
+                                            title={`Kliknij aby zobaczyć wykaz alergenów - ${allergenMap[allergenNum]}`}
+                                            onClick={scrollToAllergenLegend}
+                                          >
+                                            {allergenNum}
+                                          </Badge>
+                                        )
+                                      })}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {item.subItems && (
+                                  <ul className="text-gray-600 text-sm space-y-1 mb-3">
+                                    {item.subItems.map((subItem, subIndex) => (
+                                      <li key={subIndex} className="flex items-center gap-2">
+                                        <span className="w-1 h-1 bg-[#BA9D76] rounded-full"></span>
+                                        <span className={`font-light ${archivo.className}`}>{subItem.name}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Image Section */}
+                            {item.image && (
+                              <div className="flex-shrink-0 order-1 md:order-2">
+                                <div
+                                  className="relative w-full md:w-44 h-48 md:h-36 group cursor-pointer rounded-lg overflow-hidden border border-gray-200"
+                                  onClick={() => openImageModal(item.image!, item.name)}
+                                >
+                                  <Image
+                                    src={item.image || "/placeholder.svg"}
+                                    alt={item.name}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
+                                      <span className={`text-gray-800 text-xs font-medium font-light ${archivo.className}`}>
+                                        Kliknij
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          )}
+                            )}
 
-                          {/* Warning Overlay */}
-                          {!isSafe && activeAllergens.length > 0 && (
-                            <div className="absolute top-4 right-4 bg-red-500/90 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg backdrop-blur-sm animate-pulse z-20">
-                              Zawiera: {item.allergens?.filter(a => activeAllergens.includes(a)).map(a => allergenMap[a]).join(", ")}
-                            </div>
-                          )}
-                        </div>
-                      )
-                    })}
+                            {/* Warning Overlay */}
+                            {!isSafe && activeAllergens.length > 0 && (
+                              <div className="absolute top-4 right-4 bg-red-500/90 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg backdrop-blur-sm animate-pulse z-20">
+                                Zawiera: {item.allergens?.filter(a => activeAllergens.includes(a)).map(a => allergenMap[a]).join(", ")}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+
+                    {category.notes && (
+                      <p className={`text-center text-gray-500 text-sm mt-6 italic font-light ${archivo.className}`}>
+                        {category.notes}
+                      </p>
+                    )}
                   </div>
-
-                  {category.notes && (
-                    <p className={`text-center text-gray-500 text-sm mt-6 italic font-light ${archivo.className}`}>
-                      {category.notes}
-                    </p>
-                  )}
-                </div>
-              ))}
+                )
+              })}
             </section>
           ))}
 
