@@ -176,6 +176,7 @@ export const menuData: MenuCategory[] = [
             description: "Pasta z białej fasoli i masła sezamowego z przyprawami",
             price: "9 zł",
             image: "/images/menu/hummus-white-bean.jpg",
+            allergens: [1, 11],
           },
           {
             id: "mix-pikli",
@@ -223,6 +224,7 @@ export const menuData: MenuCategory[] = [
             description: "Smażona kulka z kaszy bulgur z jagnięciną, cebulą i przyprawami",
             price: "11 zł",
             image: "/images/menu/kibbeh.jpg",
+            allergens: [1],
           },
           {
             id: "tabbouleh-basma",
@@ -254,6 +256,7 @@ export const menuData: MenuCategory[] = [
             description: "Grillowana papryka podana na labneh",
             price: "12 zł",
             image: "/images/menu/grilled-pepper-labneh.jpg",
+            allergens: [7],
           },
           {
             id: "labneh-basma",
@@ -295,7 +298,7 @@ export const menuData: MenuCategory[] = [
             description: "3x falafel, hummus, labneh, grillowany bakłażan, mix pikli, pita",
             price: "45 zł",
             image: "/images/menu/mezze-platter-basma-premium.jpeg",
-            allergens: [1, 10, 11],
+            allergens: [3, 7],
           },
           {
             id: "arabski-talerz",
@@ -303,7 +306,7 @@ export const menuData: MenuCategory[] = [
             description: "Hummus, labneh, tabbouleh, muhammara, mix pikli, pita",
             price: "45 zł",
             image: "/images/menu/mezze-platter-arabic-premium.jpeg",
-            allergens: [1, 7, 8, 10, 11],
+            allergens: [1, 7, 11, 12],
           },
           {
             id: "jerozolimski-talerz",
@@ -327,7 +330,7 @@ export const menuData: MenuCategory[] = [
             description: "3x falafel, hummus, tabbouleh, muhammara, mix pikli, pita",
             price: "45 zł",
             image: "/images/menu/mezze-platter-basma-premium.jpeg",
-            allergens: [1, 8, 10, 11],
+            allergens: [1, 8, 11, 12],
           },
         ],
       },
@@ -426,6 +429,7 @@ export const menuData: MenuCategory[] = [
               "Grillowany bakłażan z hummusem z białej fasoli, tabbouleh, rodzynkami i migdałami",
             price: "39 zł",
             image: "/images/menu/grilled-aubergine.jpg",
+            allergens: [1, 8, 11],
           },
           {
             id: "cauliflower-labneh",
@@ -452,6 +456,7 @@ export const menuData: MenuCategory[] = [
             description: "Nuggety z piersi kurczaka, frytki, tzatziki, labneh, ogórek, pomidor",
             price: "36 zł",
             image: "/images/menu/explorer-plate.jpg",
+            allergens: [1, 3, 7],
           },
         ],
       },
@@ -471,6 +476,7 @@ export const menuData: MenuCategory[] = [
               "Kasza bulgur, ogórek, pomidor, czerwona cebula, natka pietruszki, mięta, oliwa, sok z cytryny, melasa z granatu",
             price: "38 zł",
             image: "/images/menu/syrian-salad-basma.jpg",
+            allergens: [1],
           },
           {
             id: "fattoush",
@@ -498,6 +504,7 @@ export const menuData: MenuCategory[] = [
             description: "Ciasto kataifi, mozzarella, syrop cukrowy, woda różana",
             price: "25 zł",
             image: "/images/menu/kunafa.jpg",
+            allergens: [1, 7],
           },
           {
             id: "sekerpare",
@@ -512,6 +519,7 @@ export const menuData: MenuCategory[] = [
             description: "Figi, orzechy włoskie, miód, ciasto kataifi, labneh",
             price: "35 zł",
             image: "/images/menu/baked-figs.jpg",
+            allergens: [1, 7, 8, 12],
           },
           {
             id: "dubai-dream",
@@ -535,6 +543,7 @@ export const menuData: MenuCategory[] = [
             name: "Sernik z Labneh",
             description: "Sernik z labneh podawany z melasą z daktyli",
             price: "22 zł",
+            allergens: [3, 7, 12],
           },
           {
             id: "warm-apple-pie",
@@ -542,6 +551,7 @@ export const menuData: MenuCategory[] = [
             description:
               "Jabłka, gruszki, rodzynki, kruszonka, krem tahini, lody waniliowe",
             price: "29 zł",
+            allergens: [1, 3, 8, 11],
           },
         ],
       },
