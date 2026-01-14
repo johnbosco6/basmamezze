@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { useState, useEffect, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Home, BookOpen, MessageCircle, Coffee, Utensils, Wine, X, Share2, ChevronUp, ChevronDown, Filter, Calendar } from "lucide-react"
+import { Home, BookOpen, MessageCircle, Coffee, Utensils, Wine, X, Share2, ChevronUp, ChevronDown, Filter, Calendar, Megaphone } from "lucide-react"
 import { Archivo } from "next/font/google"
 import Image from "next/image"
 
@@ -203,6 +203,13 @@ ${shareData.url}`)
             >
               <MessageCircle className="h-4 w-4 transition-colors duration-300" />
               <span className={`text-xs font-light ${archivo.className}`}>Kontakt</span>
+            </Link>
+            <Link
+              href="/newsletter"
+              className="flex flex-col items-center gap-1 p-2 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/20 hover:shadow-lg text-white/80 hover:text-[#BA9D76] group"
+            >
+              <Megaphone className="h-4 w-4 transition-colors duration-300" />
+              <span className={`text-xs font-light ${archivo.className}`}>Oferty</span>
             </Link>
           </nav>
           <div className="flex-1 flex justify-end"></div>

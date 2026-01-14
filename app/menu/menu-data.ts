@@ -428,7 +428,7 @@ export const menuData: MenuCategory[] = [
             description:
               "Grillowany bakłażan z hummusem z białej fasoli, tabbouleh, rodzynkami i migdałami",
             price: "39 zł",
-            image: "/images/menu/grilled-aubergine.jpg",
+            image: "/images/menu/grilled-aubergine-new.jpg",
             allergens: [1, 8, 11],
           },
           {
