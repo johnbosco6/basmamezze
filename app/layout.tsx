@@ -8,6 +8,7 @@ import { Suspense } from "react"
 import { ThemeProvider } from "@/components/theme-provider"
 import { CookieConsent } from "@/components/cookie-consent"
 import { CookieSettingsButton } from "@/components/cookie-settings-button"
+import StyledComponentsRegistry from "@/lib/registry"
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -40,14 +41,16 @@ export default function RootLayout({
         <meta name="google-site-verification" content="kMHJYqdKMSr_OQns84feU7o55nGSXYggxQwvsdBNXZE" />
       </head>
       <body className={archivo.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Suspense fallback={null}>
-            {children}
-            <CookieConsent />
-            <CookieSettingsButton />
-            <Analytics />
-          </Suspense>
-        </ThemeProvider>
+        <StyledComponentsRegistry>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <Suspense fallback={null}>
+              {children}
+              <CookieConsent />
+              <CookieSettingsButton />
+              <Analytics />
+            </Suspense>
+          </ThemeProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   )
