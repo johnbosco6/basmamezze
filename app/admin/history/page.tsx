@@ -3,8 +3,8 @@ import { AdminSidebar } from '@/components/admin/sidebar'
 import { Archivo } from 'next/font/google'
 import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
-import { History, Search, Download } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { History, Search } from 'lucide-react'
+import { ExportButton } from '@/components/admin/export-button'
 
 const archivo = Archivo({
     subsets: ["latin"],
@@ -23,28 +23,27 @@ export default async function OrderHistoryPage() {
             <AdminSidebar />
 
             <div className="flex-1 flex flex-col min-w-0">
-                <header className="sticky top-0 z-40 backdrop-blur-md bg-black/40 border-b border-white/10 p-4 md:px-8 flex justify-between items-center h-20">
-                    <div className="flex flex-col">
-                        <h1 className="text-xl font-bold tracking-tight text-[#BA9D76]">Historia Zamówień</h1>
-                        <p className="text-white/40 text-[10px] uppercase tracking-widest font-bold">Archiwum zakończonych transakcji</p>
+                <header className="sticky top-0 z-40 backdrop-blur-md bg-black/40 border-b border-white/10 p-4 md:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:h-20">
+                    <div className="flex flex-col ml-12 lg:ml-0">
+                        <h1 className="text-lg md:text-xl font-bold tracking-tight text-[#BA9D76]">Historia Zamówień</h1>
+                        <p className="text-white/40 text-[9px] md:text-[10px] uppercase tracking-widest font-bold">Archiwum zakończonych transakcji</p>
                     </div>
                 </header>
 
-                <main className="p-4 md:p-10 space-y-8 overflow-y-auto">
+                <main className="p-4 md:p-10 space-y-6 md:space-y-8 overflow-y-auto">
                     {/* Search / Filter Bar */}
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-1 relative group">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-[#BA9D76] transition-colors" size={18} />
                             <input
                                 type="text"
-                                placeholder="Szukaj po numerze, klidencie lub telefonie..."
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#BA9D76]/50 transition-all"
+                                placeholder="Szukaj po numerze, kliencie lub telefonie..."
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#BA9D76]/50 transition-all font-medium"
                             />
                         </div>
-                        <Button variant="outline" className="bg-white/5 border-white/10 rounded-2xl h-12 px-6 gap-2 hover:bg-white/10">
-                            <Download size={18} />
-                            Eksportuj CSV
-                        </Button>
+                        <div className="w-full md:w-auto">
+                            <ExportButton />
+                        </div>
                     </div>
 
                     {/* History Table */}

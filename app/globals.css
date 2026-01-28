@@ -92,6 +92,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -125,4 +126,24 @@ html {
 input[type="date"],
 input[type="time"] {
   color-scheme: dark;
+}
+
+/* Light Mode for Admin Dashboard */
+html[data-theme="light"] {
+  --admin-bg-primary: rgb(248, 250, 252);
+  --admin-bg-secondary: rgb(241, 245, 249);
+  --admin-text-primary: rgb(15, 23, 42);
+  --admin-text-secondary: rgb(71, 85, 105);
+  --admin-border: rgb(226, 232, 240);
+  --admin-accent: rgb(186, 157, 118);
+}
+
+html[data-theme="dark"],
+html:not([data-theme]) {
+  --admin-bg-primary: rgb(18, 18, 18);
+  --admin-bg-secondary: rgb(43, 43, 43);
+  --admin-text-primary: rgb(255, 255, 255);
+  --admin-text-secondary: rgb(156, 163, 175);
+  --admin-border: rgb(55, 65, 81);
+  --admin-accent: rgb(186, 157, 118);
 }

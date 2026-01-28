@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
 import { Phone, MapPin, Clock, CheckCircle, Truck, Utensils, Archive, MessageCircle, Check } from 'lucide-react'
 import { updateOrderStatus } from '@/app/actions/admin-actions'
+import { logAuditAction, getCurrentStaff } from '@/app/actions/auth-actions'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -30,20 +31,30 @@ interface OrderCardProps {
     order: any
 }
 
+
 export function OrderCard({ order }: OrderCardProps) {
     const [loading, setLoading] = useState(false)
+    const [currentStaff, setCurrentStaff] = useState<string>('Unknown')
     const [sentNotifications, setSentNotifications] = useState({
         received: false,
         preparing: false,
         on_way: false
     })
 
+    useEffect(() => {
+        const fetchStaff = async () => {
+            const staff = await getCurrentStaff()
+            setCurrentStaff(staff || 'Unknown')
+        }
+        fetchStaff()
+    }, [])
+
     const status = order.status || 'pending'
     const config = statusConfig[status] || statusConfig.pending
 
     const allNotificationsSent = sentNotifications.received && sentNotifications.preparing && sentNotifications.on_way
 
-    const sendNotification = (type: 'received' | 'preparing' | 'on_way') => {
+    const sendNotification = async (type: 'received' | 'preparing' | 'on_way') => {
         let message = ''
         switch (type) {
             case 'received':
@@ -61,6 +72,14 @@ export function OrderCard({ order }: OrderCardProps) {
         window.open(url, '_blank')
 
         setSentNotifications(prev => ({ ...prev, [type]: true }))
+
+        // Log notification sent
+        await logAuditAction(
+            currentStaff,
+            'notification_sent',
+            `Sent ${type} notification to ${order.customerName}`,
+            order._id
+        )
     }
 
     const handleStatusUpdate = async (newStatus: string) => {
@@ -69,6 +88,14 @@ export function OrderCard({ order }: OrderCardProps) {
             const result = await updateOrderStatus(order._id, newStatus)
             if (result.success) {
                 toast.success(result.message)
+
+                // Log status change
+                await logAuditAction(
+                    currentStaff,
+                    'order_status_changed',
+                    `Changed order ${order.orderNumber} status from ${status} to ${newStatus}`,
+                    order._id
+                )
             } else {
                 toast.error(result.message)
             }
@@ -82,9 +109,9 @@ export function OrderCard({ order }: OrderCardProps) {
     return (
         <Card className={`w-full backdrop-blur-lg bg-white/10 border border-white/20 shadow-2xl overflow-hidden text-white ${archivo.className} ${config.glow}`}>
             <CardHeader className="pb-3 border-b border-white/10">
-                <div className="flex justify-between items-start">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0">
                     <div>
-                        <CardTitle className="text-xl font-bold flex items-center gap-3">
+                        <CardTitle className="text-xl font-bold flex flex-wrap items-center gap-3">
                             <span className="text-[#BA9D76]">#{order.orderNumber?.slice(-4) || '----'}</span>
                             <Badge className={`${config.color} text-white border-0 shadow-lg px-3 py-1`}>
                                 <config.icon className="w-3.5 h-3.5 mr-1.5" />
@@ -95,89 +122,89 @@ export function OrderCard({ order }: OrderCardProps) {
                             {order.orderDate ? format(new Date(order.orderDate), 'PPp', { locale: pl }) : 'Przed chwilą'}
                         </p>
                     </div>
-                    <div className="text-right">
+                    <div className="text-left sm:text-right w-full sm:w-auto">
                         <p className="font-bold text-2xl text-[#BA9D76]">{order.totalAmount?.toFixed(2)} zł</p>
                     </div>
                 </div>
             </CardHeader>
 
-            <CardContent className="py-6 space-y-6">
+            <CardContent className="py-6 space-y-6 px-4 sm:px-6">
                 {/* Customer Info */}
-                <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-2">
-                    <div className="flex items-center gap-3 font-semibold text-lg">
-                        <span className="text-[#BA9D76]">👤</span>
-                        <span>{order.customerName}</span>
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
+                    <div className="flex items-center gap-3 font-semibold text-lg overflow-hidden">
+                        <span className="text-xl">👤</span>
+                        <span className="truncate">{order.customerName}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-white/70">
-                        <Phone className="w-3.5 h-3.5 text-[#BA9D76]" />
-                        <a href={`tel:${order.customerPhone}`} className="hover:text-[#BA9D76] transition-colors">{order.customerPhone}</a>
-                    </div>
-                    <div className="flex items-center gap-3 text-white/70">
-                        <MapPin className="w-3.5 h-3.5 text-[#BA9D76]" />
-                        <span className="truncate">{order.customerAddress || 'Brak adresu'}</span>
+                    <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-3 text-white/70">
+                            <Phone className="w-3.5 h-3.5 text-[#BA9D76]" />
+                            <a href={`tel:${order.customerPhone}`} className="hover:text-[#BA9D76] transition-colors break-all text-sm">{order.customerPhone}</a>
+                        </div>
+                        <div className="flex items-start gap-3 text-white/70">
+                            <MapPin className="w-3.5 h-3.5 text-[#BA9D76] mt-1 shrink-0" />
+                            <span className="text-sm leading-tight">{order.customerAddress || 'Brak adresu'}</span>
+                        </div>
                     </div>
                 </div>
 
                 {/* Items */}
-                <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                        <h4 className="text-xs font-semibold text-white/40 uppercase tracking-widest pl-1">Produkty</h4>
-                    </div>
-                    <div className="space-y-2.5">
+                <div className="space-y-4">
+                    <h4 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] pl-1">Produkty</h4>
+                    <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                         {order.items?.map((item: any, idx: number) => (
                             <div key={idx} className="flex justify-between items-start text-sm py-3 border-b border-white/5 last:border-0 group">
-                                <div className="flex gap-4">
-                                    <span className="font-bold text-center bg-[#BA9D76]/80 text-white min-w-[28px] h-[28px] flex items-center justify-center rounded-lg shadow-sm">
+                                <div className="flex gap-3">
+                                    <span className="font-bold text-center bg-[#BA9D76]/80 text-white min-w-[24px] h-[24px] flex items-center justify-center rounded-lg shadow-sm text-xs shrink-0">
                                         {item.quantity}
                                     </span>
-                                    <div className="flex flex-col">
-                                        <span className="font-medium group-hover:text-[#BA9D76] transition-colors">
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="font-medium group-hover:text-[#BA9D76] transition-colors truncate">
                                             {item.menuItem?.title || 'Nieznany produkt'}
                                         </span>
                                         {item.additions && (
-                                            <span className="text-white/40 text-xs italic mt-0.5">
+                                            <span className="text-white/40 text-[11px] italic mt-0.5 line-clamp-2">
                                                 + {item.additions}
                                             </span>
                                         )}
                                     </div>
                                 </div>
-                                <span className="font-semibold text-white/90">{(item.price * item.quantity).toFixed(2)} zł</span>
+                                <span className="font-semibold text-white/90 ml-2 shrink-0">{(item.price * item.quantity).toFixed(2)} zł</span>
                             </div>
                         ))}
                     </div>
                 </div>
             </CardContent>
 
-            <CardFooter className="p-4 pt-4 border-t border-white/5 flex flex-col gap-4">
+            <CardFooter className="p-4 pt-4 border-t border-white/5 flex flex-col gap-4 bg-black/5">
                 {/* WhatsApp Notification Center */}
-                <div className="w-full space-y-2">
-                    <h4 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-2 flex items-center gap-2">
+                <div className="w-full space-y-3">
+                    <h4 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] flex items-center gap-2">
                         <MessageCircle className="w-3 h-3" /> Powiadomienia (Wszystkie 3 wymagane)
                     </h4>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-1 xs:grid-cols-3 gap-2">
                         <Button
                             variant="secondary"
                             size="sm"
-                            className={`text-[10px] h-9 border border-white/10 uppercase font-bold tracking-tight transition-all ${sentNotifications.received ? 'bg-green-600/50 border-green-500/50' : 'bg-white/5 hover:bg-white/10'}`}
+                            className={`text-[10px] h-10 border border-white/10 uppercase font-bold tracking-tight transition-all flex items-center justify-center gap-2 ${sentNotifications.received ? 'bg-green-600/50 border-green-500/50 text-white' : 'bg-white/5 hover:bg-white/10 text-white/60'}`}
                             onClick={() => sendNotification('received')}
                         >
-                            {sentNotifications.received && <Check className="w-3 h-3 mr-1" />} Przyjęte
+                            {sentNotifications.received ? <Check className="w-3 h-3" /> : null} Przyjęte
                         </Button>
                         <Button
                             variant="secondary"
                             size="sm"
-                            className={`text-[10px] h-9 border border-white/10 uppercase font-bold tracking-tight transition-all ${sentNotifications.preparing ? 'bg-green-600/50 border-green-500/50' : 'bg-white/5 hover:bg-white/10'}`}
+                            className={`text-[10px] h-10 border border-white/10 uppercase font-bold tracking-tight transition-all flex items-center justify-center gap-2 ${sentNotifications.preparing ? 'bg-green-600/50 border-green-500/50 text-white' : 'bg-white/5 hover:bg-white/10 text-white/60'}`}
                             onClick={() => sendNotification('preparing')}
                         >
-                            {sentNotifications.preparing && <Check className="w-3 h-3 mr-1" />} Gotowanie
+                            {sentNotifications.preparing ? <Check className="w-3 h-3" /> : null} Gotowanie
                         </Button>
                         <Button
                             variant="secondary"
                             size="sm"
-                            className={`text-[10px] h-9 border border-white/10 uppercase font-bold tracking-tight transition-all ${sentNotifications.on_way ? 'bg-green-600/50 border-green-500/50' : 'bg-white/5 hover:bg-white/10'}`}
+                            className={`text-[10px] h-10 border border-white/10 uppercase font-bold tracking-tight transition-all flex items-center justify-center gap-2 ${sentNotifications.on_way ? 'bg-green-600/50 border-green-500/50 text-white' : 'bg-white/5 hover:bg-white/10 text-white/60'}`}
                             onClick={() => sendNotification('on_way')}
                         >
-                            {sentNotifications.on_way && <Check className="w-3 h-3 mr-1" />} W drodze
+                            {sentNotifications.on_way ? <Check className="w-3 h-3" /> : null} W drodze
                         </Button>
                     </div>
                 </div>
