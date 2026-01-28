@@ -6,6 +6,8 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
+export const dynamic = 'force-dynamic'
+
 async function getOffer(slug: string) {
     const query = `*[_type == "post" && slug.current == $slug][0] {
     _id,

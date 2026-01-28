@@ -4,6 +4,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { PortableText } from "@portabletext/react"
 
+export const dynamic = 'force-dynamic'
+
 async function getOffers() {
     const query = `*[_type == "post"] | order(publishedAt desc) {
     _id,
