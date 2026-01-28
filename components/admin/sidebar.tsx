@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Calendar, LayoutDashboard, LogOut, Settings, History, ChevronLeft, ChevronRight, Menu } from 'lucide-react'
 import { Archivo } from 'next/font/google'
 import { Button } from '@/components/ui/button'
+import { logoutAdmin } from '@/app/actions/auth-actions'
 
 const archivo = Archivo({
     subsets: ["latin"],
@@ -93,16 +94,15 @@ export function AdminSidebar() {
 
             {/* Footer / Logout */}
             <div className="p-4 border-t border-white/5">
-                <Button
-                    variant="ghost"
-                    className="w-full justify-start gap-4 p-3 rounded-xl text-red-400 hover:text-red-300 hover:bg-red-900/10 transition-all group"
-                    asChild
-                >
-                    <Link href="/">
+                <form action={logoutAdmin}>
+                    <button
+                        type="submit"
+                        className="w-full flex items-center justify-start gap-4 p-3 rounded-xl text-red-400 hover:text-red-300 hover:bg-red-900/10 transition-all group"
+                    >
                         <LogOut className="w-5 h-5" />
                         {!isCollapsed && <span className="font-medium">Wyloguj</span>}
-                    </Link>
-                </Button>
+                    </button>
+                </form>
 
                 <Button
                     variant="ghost"
