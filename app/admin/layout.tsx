@@ -1,0 +1,29 @@
+import { ReactNode } from 'react'
+import { Metadata } from 'next'
+import { PWARegistration } from '@/components/admin/pwa-registration'
+
+export const metadata: Metadata = {
+    title: 'Basma Admin Dashboard',
+    description: 'Operational management for Basma Meze & Grill',
+    manifest: '/manifest.json',
+    themeColor: '#BA9D76',
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: 'Basma Admin',
+    },
+    icons: {
+        apple: [
+            { url: '/icons/icon-192x192.png' },
+        ],
+    },
+}
+
+export default function AdminLayout({ children }: { children: ReactNode }) {
+    return (
+        <>
+            <PWARegistration />
+            {children}
+        </>
+    )
+}
