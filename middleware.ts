@@ -9,17 +9,18 @@ export function middleware(request: NextRequest) {
     const session = request.cookies.get('admin_session')
     const isAuthenticated = session?.value === 'authenticated'
 
-    // Block access to public website routes
-    if (BLOCKED_ROUTES.some(route => pathname.startsWith(route))) {
-        return NextResponse.redirect(new URL('/admin/login', request.url))
-    }
-
-    // Allow public routes (login page)
-    if (PUBLIC_ROUTES.includes(pathname)) {
+    // Allow public routes (login page) - MUST be first
+    if (pathname === '/admin/login') {
         return NextResponse.next()
     }
 
-    // Protect all /admin routes
+    // Block access to public website routes
+    const blockedPaths = ['/menu', '/offers', '/newsletter', '/studio']
+    if (pathname === '/' || blockedPaths.some(route => pathname.startsWith(route))) {
+        return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+
+    // Protect all /admin routes (except login which we already handled)
     if (pathname.startsWith('/admin')) {
         if (!isAuthenticated) {
             return NextResponse.redirect(new URL('/admin/login', request.url))
