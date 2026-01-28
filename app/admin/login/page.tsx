@@ -10,6 +10,8 @@ const archivo = Archivo({
     display: "swap",
 })
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminLoginPage() {
     // Redirect if already authenticated
     const authenticated = await isAuthenticated()
