@@ -3,12 +3,20 @@
 import { createClient } from 'next-sanity'
 import { revalidatePath } from 'next/cache'
 
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+const token = process.env.SANITY_API_TOKEN
+
+if (!projectId || !dataset) {
+    console.warn('[Admin Actions] Sanity Project ID or Dataset is missing. Check your environment variables.')
+}
+
 const client = createClient({
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+    projectId: projectId || 'placeholder',
+    dataset: dataset || 'production',
     apiVersion: '2024-01-01',
     useCdn: false,
-    token: process.env.SANITY_API_TOKEN, // Critical for write operations
+    token: token, // Critical for write operations
 })
 
 export async function updateOrderStatus(orderId: string, newStatus: string) {
