@@ -277,7 +277,7 @@ export const menuData: MenuCategory[] = [
             id: "all-mezze-set",
             name: "Zestaw Wszystkich Mezze z 4 Falafelami",
             description: "Kompletny zestaw wszystkich mezze z dodatkiem 4 falafelów",
-            price: "159 zł",
+            price: "189 zł",
             allergens: [1, 4, 7, 8, 10, 11],
           },
         ],
@@ -303,10 +303,18 @@ export const menuData: MenuCategory[] = [
           {
             id: "arabski-talerz",
             name: "Arabski",
-            description: "Hummus, labneh, tabbouleh, muhammara, mix pikli, pita",
+            description: "2x falafel, hummus, labneh, tabbouleh, muhammara, mix pikli, pita",
             price: "45 zł",
             image: "/images/menu/mezze-platter-arabic-premium.jpeg",
             allergens: [1, 7, 11, 12],
+          },
+          {
+            id: "libanski-talerz",
+            name: "Libański",
+            description: "2x Kibbeh, Hummus z białej fasoli, tabbouleh, grillowana papryka na labneh, mix pikli, pita",
+            price: "45 zł",
+            image: "/images/menu/mezze-platter-arabic-premium.jpeg",
+            allergens: [1, 7, 10, 11],
           },
           {
             id: "jerozolimski-talerz",
@@ -345,8 +353,8 @@ export const menuData: MenuCategory[] = [
         items: [
           {
             id: "chicken-joojeh",
-            name: "Kurczak Joojeh",
-            description: "Cytrynowy kurczak z szafranem i sosem zhoug",
+            name: "Kurczak Shish Joojeh",
+            description: "Cytrynowy szaszłyk z kurczaka z szafranem i sosem zhoug",
             price: "39 zł",
             image: "/images/menu/chicken-joojeh.jpeg",
             allergens: [7, 10],
@@ -362,7 +370,7 @@ export const menuData: MenuCategory[] = [
           {
             id: "chicken-taouk",
             name: "Kurczak Shish Taouk",
-            description: "Aromatyczny kurczak z harissą",
+            description: "Aromatyczny szaszłyk z kurczaka z harissą",
             price: "39 zł",
             image: "/images/menu/chicken-shish-taouk-new.jpeg",
             allergens: [7, 10],
@@ -393,8 +401,8 @@ export const menuData: MenuCategory[] = [
           },
           {
             id: "lamb-chops",
-            name: "Lamb Chops",
-            description: "Comber jagnięcy z labneh, orzechami pinii, piklami, natką pietruszki, cebulą i czarnuszką",
+            name: "Comber Jagnięcy",
+            description: "Z labneh, orzechami pinii, piklami, natką pietruszki, cebulą i czarnuszką",
             price: "129 zł",
             image: "/images/menu/lamb-chops-with-labneh-new.jpeg",
             allergens: [7, 8, 10],
@@ -403,7 +411,7 @@ export const menuData: MenuCategory[] = [
             id: "meat-platter-2",
             name: "Talerz Mięs dla Dwóch Osób",
             description:
-              "Adana kebab 1/2, kofta jagnięca 1/2, lamb chops 1/2, kurczak joojeh, kurczak taouk, sosy: zhoug, toum, harissa, pilpelchuma, 2x pita, ryż, frytki z sumakiem, mix pikli",
+              "Adana kebab 1/2, kofta jagnięca 1/2, comber jagnięcy 1/2, kurczak shish joojeh, kurczak shish taouk, sosy: zhoug, toum, harissa, pilpelchuma, basma, 2x pita, ryż, frytki z sumakiem, mix pikli",
             price: "199 zł",
             image: "/images/menu/meat-platter-for-two-new.jpeg",
             allergens: [1, 3, 7, 8, 10, 11],
@@ -412,7 +420,7 @@ export const menuData: MenuCategory[] = [
             id: "meat-platter-4",
             name: "Talerz Mięs dla Czterech Osób",
             description:
-              "Lamb chops, adana kebap, kofty jagnięce, kurczak joojeh, kurczak taouk, sosy: zhoug, toum, harissa, pilpelchuma, 4x pita, ryż, frytki z sumakiem, mix pikli",
+              "Comber jagnięcy, adana kebap, kofty jagnięce, kurczak shish joojeh, kurczak shish taouk, sosy: zhoug, toum, harissa, pilpelchuma, basma, 4x pita, ryż, frytki z sumakiem, mix pikli",
             price: "389 zł",
             image: "/images/menu/meat-platter-for-four-new.jpeg",
             allergens: [1, 3, 7, 8, 10, 11],
@@ -433,8 +441,8 @@ export const menuData: MenuCategory[] = [
           },
           {
             id: "cauliflower-labneh",
-            name: "Kalafior z Labneh",
-            description: "Melasą z granatów, pastą sezamową, orzechową dukkah, płatkami róży i granatem",
+            name: "Grillowany Kalafior",
+            description: "Z labneh, melasą z granatów, pastą sezamową, orzechową dukkah, płatkami róży i granatem",
             price: "49 zł",
             image: "/images/menu/cauliflower-labneh.jpeg",
             allergens: [7, 8, 11],
@@ -444,12 +452,6 @@ export const menuData: MenuCategory[] = [
       {
         categoryName: "Dla Dzieci",
         items: [
-          {
-            id: "pearl-couscous-lamb",
-            name: "Kuskus Perlowy z Mieloną Jagnięciną",
-            description: "Kuskus perlowy z mieloną jagnięciną w sosie pomidorowym",
-            price: "29 zł",
-          },
           {
             id: "explorer-plate",
             name: "Talerz Odkrywcy",
@@ -467,7 +469,7 @@ export const menuData: MenuCategory[] = [
     sectionTitle: "Sałatki",
     categories: [
       {
-        categoryName: "Świeże Sałatki",
+        categoryName: "Sałatki",
         items: [
           {
             id: "syrian-salad-basma",
@@ -603,6 +605,14 @@ export const menuData: MenuCategory[] = [
             price: "8 zł",
             image: "/images/menu/ayran-fresh.jpeg",
             allergens: [7],
+          },
+          {
+            id: "mix-pikli-dodatek",
+            name: "Mix Pikli",
+            description: "Chrupiące warzywa w aromatycznej zalewie octowej",
+            price: "9 zł",
+            image: "/images/menu/mixed-pickles-mezze.jpeg",
+            allergens: [10],
           },
         ],
       },
