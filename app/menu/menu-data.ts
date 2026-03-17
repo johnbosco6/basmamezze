@@ -147,6 +147,60 @@ export const menuData: MenuCategory[] = [
     ],
   },
   {
+    id: "wrapy",
+    sectionTitle: "Wrapy",
+    categories: [
+      {
+        categoryName: "Wrapy (12:00-18:00)",
+        items: [
+          {
+            id: "wrap-syryjski",
+            name: "Syryjski",
+            description: "Falafel, sałata, ogórek, pomidor, natka pietruszki, sos basma",
+            price: "37 zł",
+            image: "/images/menu/syrian wrap.jpeg",
+          },
+          {
+            id: "wrap-jerozolimski",
+            name: "Jerozolimski",
+            description: "Bakłażan, hummus, ogórek, pomidor, cebula, sos pilpelchuma, amba",
+            price: "37 zł",
+            image: "/images/menu/jerusalem wrap.jpeg",
+          },
+          {
+            id: "wrap-libanski",
+            name: "Libański",
+            description: "Kurczak taouk, sałata, papryka, pepperoni, płatki chilli, natka pietruszki, sos basma",
+            price: "39 zł",
+            image: "/images/menu/lebanese wrap.jpeg",
+          },
+          {
+            id: "wrap-turecki",
+            name: "Turecki",
+            description: "Adana kebab, sałata, cebula, pikle, sumak, natka pietruszki, sos toum, sos pilpelchuma",
+            price: "42 zł",
+            image: "/images/menu/turlish wrap.jpeg",
+          },
+          {
+            id: "wrap-grecki",
+            name: "Grecki",
+            description: "Halloumi, sałata, czerwona cebula, oliwki, pomidor, ubijana feta, sos pilpelchuma, natka pietruszki",
+            price: "43 zł",
+            image: "/images/menu/arabic wrap.jpeg",
+          },
+          {
+            id: "wrap-perski",
+            name: "Perski",
+            description: "Kofta jagnięca, ubijana feta, sałata, pikle, natka pietruszki",
+            price: "47 zł",
+            image: "/images/menu/persian wrap.jpeg",
+          },
+        ],
+        notes: "Wykaz alergenów dostępny u obsługi",
+      },
+    ],
+  },
+  {
     id: "mezze-talerzyki",
     sectionTitle: "Talerzyki Mezze",
     categories: [
