@@ -687,12 +687,7 @@ export const menuData: MenuCategory[] = [
             description: "Herbata arabska, syrop z bzu, miód, woda z kwiatów pomarańczy",
             price: "18 zł",
           },
-          {
-            id: "autumn-coffee",
-            name: "Kawa Jesienna",
-            description: "Espresso, adriatico, syrop cynamonowy, mleko",
-            price: "18 zł",
-          },
+
           {
             id: "espresso",
             name: "Espresso",
@@ -783,7 +778,7 @@ export const menuData: MenuCategory[] = [
             id: "mulled-aperol",
             name: "Grzaniec z Aperolem",
             description: "Aperol, białe wino, sok jabłkowy, syrop brzoskwiniowy, korzenne przyprawy, pomarańcza",
-            price: "28 zł",
+            price: "29 zł",
           },
           {
             id: "mulled-nonalcoholic",
@@ -835,7 +830,7 @@ export const menuData: MenuCategory[] = [
             id: "fresh-juice",
             name: "Sok Świeżo Wyciskany",
             description: "Pomarańczowy / grejpfrutowy / mix 0,3L",
-            price: "22 zł",
+            price: "25 zł",
             allergens: [],
           },
         ],
@@ -850,13 +845,7 @@ export const menuData: MenuCategory[] = [
             price: "25 zł",
             allergens: [8],
           },
-          {
-            id: "zatar-lemonade",
-            name: "Zatar Lemonade",
-            description: "Zatar / miód / sok z cytryny / woda gazowana",
-            price: "25 zł",
-            allergens: [],
-          },
+
           {
             id: "basma-sour-lemonade",
             name: "Basma Sour Lemonade",
@@ -966,9 +955,9 @@ export const menuData: MenuCategory[] = [
         items: [
           {
             id: "vodka-distil",
-            name: "Wódka Distil No.9",
+            name: "Wódka Nemiroff",
             description: "Premium wódka",
-            price: "12 zł",
+            price: "13 zł",
             allergens: [],
           },
           {
