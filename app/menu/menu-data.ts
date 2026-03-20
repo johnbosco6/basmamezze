@@ -41,7 +41,7 @@ export const menuData: MenuCategory[] = [
     sectionTitle: "Śniadania",
     categories: [
       {
-        categoryName: "Śniadania Bliskowschodnie (9:00-12:00)",
+        categoryName: "Śniadania (Sobota - Niedziela 10:00 - 13:00, Poniedziałek - Piątek: Niedostępne)",
         items: [
           {
             id: "szakszuka-kofta",
@@ -70,14 +70,7 @@ export const menuData: MenuCategory[] = [
             image: "/images/menu/turkish-eggs-breakfast-updated.jpeg",
             allergens: [1, 3, 7, 10, 11],
           },
-          {
-            id: "jajecznica-bliskowschodnia",
-            name: "Jajecznica Bliskowschodnia",
-            description: "3 jajka, pomidory, cebula, czosnek, oliwa, serwowana z wypiekaną na miejscu pitą",
-            price: "29 zł",
-            image: "/images/menu/scrambled-eggs-middle-eastern-new.jpeg",
-            allergens: [1, 3],
-          },
+
           {
             id: "sabich",
             name: "Sabich",
@@ -91,7 +84,7 @@ export const menuData: MenuCategory[] = [
             id: "arabic-sandwich",
             name: "Kanapka Arabska",
             description:
-              "Wypiekany na miejscu turecki bajgiel - simit, z szarpaną jagnięciną, harissą aioli, piklowaną kapustą i ogórkiem, pietruszką i miętą",
+              "Wypiekany na miejscu turecki bajgiel - simit, z koftą jagnięcą, harissą aioli, piklowaną kapustą i ogórkiem, pietruszką i miętą",
             price: "45 zł",
             image: "/images/menu/arabic-sandwich-breakfast-updated.jpeg",
             allergens: [1, 3, 7, 10, 11],
@@ -109,39 +102,12 @@ export const menuData: MenuCategory[] = [
             id: "greek-sandwich",
             name: "Kanapka Grecka",
             description:
-              "Falafel, ubita feta, oliwki, cebula, sos pilpelchuma, tahini, chilli, podawane na chlebie pita",
+              "z halloumi, oliwkami, labneh, sosem pilpelchuma, sałatą, marynowaną papryką i pietruszką",
             price: "45 zł",
             image: "/images/menu/greek-sandwich-new.jpeg",
             allergens: [1, 7, 10, 11],
           },
 
-        ],
-      },
-    ],
-  },
-  {
-    id: "zupy",
-    sectionTitle: "Zupy",
-    categories: [
-      {
-        categoryName: "Zupy Sezonowe",
-        items: [
-          {
-            id: "seasonal-soup-vege",
-            name: "Sezonowa Zupa Wegetariańska",
-            description:
-              "W ofercie restauracji znajdują się sezonowa zupa mięsna i sezonowa zupa wegetariańska. O aktualną dostępność zapytaj obsługę",
-            price: "25 zł",
-            image: "/images/menu/seasonal-soup.jpg",
-          },
-          {
-            id: "seasonal-soup-meat",
-            name: "Sezonowa Zupa Mięsna",
-            description:
-              "W ofercie restauracji znajdują się sezonowa zupa mięsna i sezonowa zupa wegetariańska. O aktualną dostępność zapytaj obsługę",
-            price: "25 zł",
-            image: "/images/menu/seasonal-soup.jpg",
-          },
         ],
       },
     ],
@@ -257,6 +223,13 @@ export const menuData: MenuCategory[] = [
             allergens: [7, 11],
           },
           {
+            id: "labneh-mietowy",
+            name: "Labneh Miętowy",
+            description: "Kremowy serek z dodatkiem mięty i natki pietruszki",
+            price: "11 zł",
+            allergens: [7],
+          },
+          {
             id: "labneh-sweet",
             name: "Labneh na Słodko",
             description: "Kremowy serek z dodatkiem miodu i pistacji",
@@ -342,13 +315,7 @@ export const menuData: MenuCategory[] = [
             price: "199 zł",
             allergens: [1, 4, 7, 8, 10, 11],
           },
-          {
-            id: "labneh-mietowy",
-            name: "Labneh Mietowy",
-            description: "Kremowy serek z dodatkiem mięty i natki pietruszki",
-            price: "11 zł",
-            allergens: [7],
-          },
+
         ],
       },
     ],
@@ -496,7 +463,7 @@ export const menuData: MenuCategory[] = [
             id: "grilled-aubergine",
             name: "Grillowany Bakłażan",
             description:
-              "Grillowany bakłażan z hummusem z białej fasoli, tabbouleh, rodzynkami i migdałami",
+              "z miętowym labneh, sałatą, ogórkiem, pomidorem, czerwoną cebulą i pieczoną ciecierzycą",
             price: "49 zł",
             image: "/images/menu/grilled-aubergine-new.jpg",
             allergens: [1, 8, 11],
@@ -528,6 +495,33 @@ export const menuData: MenuCategory[] = [
             price: "36 zł",
             image: "/images/menu/explorer-plate.jpg",
             allergens: [1, 3, 7],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "zupy",
+    sectionTitle: "Zupy",
+    categories: [
+      {
+        categoryName: "Zupy Sezonowe",
+        items: [
+          {
+            id: "seasonal-soup-vege",
+            name: "Sezonowa Zupa Wegetariańska",
+            description:
+              "W ofercie restauracji znajdują się sezonowa zupa mięsna i sezonowa zupa wegetariańska. O aktualną dostępność zapytaj obsługę",
+            price: "25 zł",
+            image: "/images/menu/seasonal-soup.jpg",
+          },
+          {
+            id: "seasonal-soup-meat",
+            name: "Sezonowa Zupa Mięsna",
+            description:
+              "W ofercie restauracji znajdują się sezonowa zupa mięsna i sezonowa zupa wegetariańska. O aktualną dostępność zapytaj obsługę",
+            price: "25 zł",
+            image: "/images/menu/seasonal-soup.jpg",
           },
         ],
       },
@@ -805,12 +799,7 @@ export const menuData: MenuCategory[] = [
             price: "18 zł",
             allergens: [],
           },
-          {
-            id: "seasonal-tea",
-            name: "Herbata Sezonowa",
-            description: "Zapytaj obsługę o dostępny smak",
-            price: "18 zł",
-          },
+
         ],
       },
       {
@@ -941,13 +930,7 @@ export const menuData: MenuCategory[] = [
             price: "25 zł",
             allergens: [],
           },
-          {
-            id: "amaretto-sour-na",
-            name: "Amaretto Sour",
-            description: "Adriatico / sok z cytryny / syrop cukrowy / białko",
-            price: "25 zł",
-            allergens: [3],
-          },
+
         ],
       },
     ],
@@ -1000,6 +983,12 @@ export const menuData: MenuCategory[] = [
             description: "Kieliszek (150 ml)",
             price: "19 zł",
             allergens: [],
+          },
+          {
+            id: "bottled-wine",
+            name: "Wino Butelkowe",
+            description: "Oferujemy szeroki wybór win butelkowych, o aktualną ofertę zapytaj obsługę.",
+            price: "od 79 zł",
           },
         ],
         notes: "W ofercie posiadamy szeroki wybór win butelkowych - zapytaj obsługę o aktualną ofertę",
