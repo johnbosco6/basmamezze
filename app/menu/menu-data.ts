@@ -86,7 +86,7 @@ export const menuData: MenuCategory[] = [
             description:
               "Wypiekany na miejscu turecki bajgiel - simit, z koftą jagnięcą, harissą aioli, piklowaną kapustą i ogórkiem, pietruszką i miętą",
             price: "45 zł",
-            image: "/images/menu/arabic-sandwich-breakfast-updated.jpeg",
+            image: "/images/menu/kanapka-arabska.jpg",
             allergens: [1, 3, 7, 10, 11],
           },
           {
@@ -104,7 +104,7 @@ export const menuData: MenuCategory[] = [
             description:
               "z halloumi, oliwkami, labneh, sosem pilpelchuma, sałatą, marynowaną papryką i pietruszką",
             price: "45 zł",
-            image: "/images/menu/greek-sandwich-new.jpeg",
+            image: "/images/menu/kanapka-grecka-.jpg",
             allergens: [1, 7, 10, 11],
           },
 
@@ -152,7 +152,7 @@ export const menuData: MenuCategory[] = [
             name: "Grecki",
             description: "Halloumi, sałata, czerwona cebula, oliwki, pomidor, ubijana feta, sos pilpelchuma, natka pietruszki",
             price: "43 zł",
-            image: "/images/menu/arabic wrap.jpeg",
+            image: "/images/menu/wrap-grecki-.jpg",
           },
           {
             id: "wrap-perski",
@@ -227,6 +227,7 @@ export const menuData: MenuCategory[] = [
             name: "Labneh Miętowy",
             description: "Kremowy serek z dodatkiem mięty i natki pietruszki",
             price: "11 zł",
+            image: "/images/menu/labneh-mietowy-.jpg",
             allergens: [7],
           },
           {
@@ -392,7 +393,7 @@ export const menuData: MenuCategory[] = [
             name: "Kurczak Shish Joojeh",
             description: "Cytrynowy szaszłyk z kurczaka z szafranem i sosem zhoug",
             price: "42 zł",
-            image: "/images/menu/chicken-joojeh.jpeg",
+            image: "/images/menu/kurczak-joojeh-.jpg",
             allergens: [7, 10],
           },
           {
@@ -408,7 +409,7 @@ export const menuData: MenuCategory[] = [
             name: "Kurczak Shish Taouk",
             description: "Aromatyczny szaszłyk z kurczaka z harissą",
             price: "42 zł",
-            image: "/images/menu/chicken-shish-taouk-new.jpeg",
+            image: "/images/menu/kurczak-taouk.jpg",
             allergens: [7, 10],
           },
           {
@@ -465,7 +466,7 @@ export const menuData: MenuCategory[] = [
             description:
               "z miętowym labneh, sałatą, ogórkiem, pomidorem, czerwoną cebulą i pieczoną ciecierzycą",
             price: "49 zł",
-            image: "/images/menu/grilled-aubergine-new.jpg",
+            image: "/images/menu/baklazan-danie.jpg",
             allergens: [1, 8, 11],
           },
           {
@@ -481,6 +482,7 @@ export const menuData: MenuCategory[] = [
             name: "Grillowane Halloumi",
             description: "Z chutney morelowym, orzechowa dukkah, kolendra i sosem pilpelchuma",
             price: "55 zł",
+            image: "/images/menu/halloumi-danie.jpg",
             allergens: [7, 8],
           },
         ],
@@ -548,6 +550,7 @@ export const menuData: MenuCategory[] = [
             name: "Sałatka Grecka",
             description: "Ser feta, ogórek, pomidor, oliwki, cebula, papryka, oliwa, oregano",
             price: "52 zł",
+            image: "/images/menu/salatka-grecka-.jpg",
             allergens: [7],
           },
           {
@@ -555,6 +558,7 @@ export const menuData: MenuCategory[] = [
             name: "Sałatka Z Halloumi",
             description: "Halloumi, sałata, ogórek, pomidor, oliwki, natka pietruszki, kolendra, dresing miodowy",
             price: "55 zł",
+            image: "/images/menu/salatka-halloumi-.jpg",
             allergens: [7],
           },
         ],
@@ -598,6 +602,7 @@ export const menuData: MenuCategory[] = [
             name: "Sernik z Labneh",
             description: "Sernik z labneh podawany z melasą z daktyli",
             price: "25 zł",
+            image: "/images/menu/sernik.jpg",
             allergens: [3, 7, 12],
           },
           {
@@ -606,6 +611,7 @@ export const menuData: MenuCategory[] = [
             description:
               "Jabłka, gruszki, rodzynki, kruszonka, krem tahini, lody waniliowe",
             price: "32 zł",
+            image: "/images/menu/szarlotka-.jpg",
             allergens: [1, 3, 8, 11],
           },
         ],
@@ -632,7 +638,7 @@ export const menuData: MenuCategory[] = [
             name: "Ryż Basmati",
             description: "Z pomidorami i aromatycznymi przyprawami",
             price: "10 zł",
-            image: "/images/menu/basmati-rice.jpeg",
+            image: "/images/menu/ryz.jpg",
             allergens: [],
           },
           {
@@ -727,6 +733,7 @@ export const menuData: MenuCategory[] = [
             name: "Herbata Arabska z Kardamonem",
             description: "Aromatyczna herbata z tradycyjnymi przyprawami",
             price: "8 zł",
+            image: "/images/menu/herbataarabska.jpg",
             allergens: [],
           },
           {
@@ -734,6 +741,7 @@ export const menuData: MenuCategory[] = [
             name: "Herbata Jesienna",
             description: "Herbata arabska, syrop z bzu, miód, woda z kwiatów pomarańczy",
             price: "18 zł",
+            image: "/images/menu/herbatasezonowa.jpg",
           },
 
           {
@@ -741,6 +749,7 @@ export const menuData: MenuCategory[] = [
             name: "Espresso",
             description: "Klasyczne espresso",
             price: "10 zł",
+            image: "/images/menu/espresso.jpg",
             allergens: [],
           },
           {
@@ -748,6 +757,7 @@ export const menuData: MenuCategory[] = [
             name: "Espresso Doppio",
             description: "Podwójne espresso",
             price: "12 zł",
+            image: "/images/menu/espresso1.jpg",
             allergens: [],
           },
           {
@@ -755,6 +765,7 @@ export const menuData: MenuCategory[] = [
             name: "Americano",
             description: "Espresso z gorącą wodą",
             price: "12 zł",
+            image: "/images/menu/americano.jpg",
             allergens: [],
           },
           {
@@ -762,6 +773,7 @@ export const menuData: MenuCategory[] = [
             name: "Kawa z Mlekiem",
             description: "Klasyczna kawa z mlekiem",
             price: "14 zł",
+            image: "/images/menu/kawazmlekiem.jpg",
             allergens: [7],
           },
           {
@@ -769,6 +781,7 @@ export const menuData: MenuCategory[] = [
             name: "Cappuccino",
             description: "Espresso z spienioną pianką mleczną",
             price: "16 zł",
+            image: "/images/menu/cappuccino.jpg",
             allergens: [7],
           },
           {
@@ -783,6 +796,7 @@ export const menuData: MenuCategory[] = [
             name: "Caffe Latte",
             description: "Espresso z dużą ilością mleka",
             price: "18 zł",
+            image: "/images/menu/latte.jpg",
             allergens: [7],
           },
           {
@@ -790,6 +804,7 @@ export const menuData: MenuCategory[] = [
             name: "Kawa Mrożona",
             description: "Orzeźwiająca kawa na lodzie",
             price: "18 zł",
+            image: "/images/menu/kawamrozona.jpg",
             allergens: [7],
           },
           {
@@ -797,6 +812,7 @@ export const menuData: MenuCategory[] = [
             name: "Tonic Espresso",
             description: "Espresso z tonikiem",
             price: "18 zł",
+            image: "/images/menu/tonicespresso.jpg",
             allergens: [],
           },
 
@@ -839,6 +855,7 @@ export const menuData: MenuCategory[] = [
             name: "Woda",
             description: "Gazowana / niegazowana 0,3L",
             price: "5 zł",
+            image: "/images/menu/woda03l.jpg",
             allergens: [],
           },
           {
@@ -853,6 +870,7 @@ export const menuData: MenuCategory[] = [
             name: "Cola / Cola Zero / Fanta / Sprite",
             description: "0,25L",
             price: "12 zł",
+            image: "/images/menu/coca-cola.jpg",
             allergens: [],
           },
           {
@@ -860,6 +878,7 @@ export const menuData: MenuCategory[] = [
             name: "Sok",
             description: "Pomarańczowy / grejpfrutowy / jabłkowy 0,3L",
             price: "8 zł",
+            image: "/images/menu/sokjablkowy.jpg",
             allergens: [],
           },
           {
@@ -874,6 +893,7 @@ export const menuData: MenuCategory[] = [
             name: "Sok Świeżo Wyciskany",
             description: "Pomarańczowy / grejpfrutowy / mix 0,3L",
             price: "25 zł",
+            image: "/images/menu/sokpomaranczowyswiezowyciskany.jpg",
             allergens: [],
           },
         ],
@@ -886,6 +906,7 @@ export const menuData: MenuCategory[] = [
             name: "Jallab Lemonade",
             description: "Jallab / prażone migdały / mięta / sok cytrynowy / woda gazowana",
             price: "25 zł",
+            image: "/images/menu/jallablemonade.jpg",
             allergens: [8],
           },
 
@@ -894,6 +915,7 @@ export const menuData: MenuCategory[] = [
             name: "Basma Sour Lemonade",
             description: "Sok z granatu / woda różana / sok z cytryny / mięta",
             price: "25 zł",
+            image: "/images/menu/basmasourlemonade.jpg",
             allergens: [],
           },
           {
@@ -901,12 +923,14 @@ export const menuData: MenuCategory[] = [
             name: "Yaffa Lemonade",
             description: "Sok jabłkowy / sok z granatu / syrop cynamonowy / sok z cytryny",
             price: "25 zł",
+            image: "/images/menu/jaffalemonade.jpg",
           },
           {
             id: "milk-dactyl",
             name: "Milk Dactyl",
             description: "Napój owsiany / jallab / kardamon / cynamon",
             price: "25 zł",
+            image: "/images/menu/milkdactyl.jpg",
             allergens: [1],
           },
           {
@@ -914,6 +938,7 @@ export const menuData: MenuCategory[] = [
             name: "Orange Spritz Free",
             description: "Sprissetto / prosecco zero / woda gazowana / pomarańcza",
             price: "25 zł",
+            image: "/images/menu/aperolspritz_i_orangespritzfree.jpg",
             allergens: [],
           },
           {
@@ -921,6 +946,7 @@ export const menuData: MenuCategory[] = [
             name: "Limoncello Free",
             description: "Limoncello zero / prosecco zero / woda gazowana",
             price: "25 zł",
+            image: "/images/menu/limoncellofree.jpg",
             allergens: [],
           },
           {
@@ -928,6 +954,7 @@ export const menuData: MenuCategory[] = [
             name: "Orange Rosemary",
             description: "Tonik / woda z kwiatów pomarańczy / rozmaryn / syrop cukrowy / sok z cytryny / woda gazowana",
             price: "25 zł",
+            image: "/images/menu/orangerosemary.jpg",
             allergens: [],
           },
 
@@ -954,6 +981,7 @@ export const menuData: MenuCategory[] = [
             name: "Wino Domowe - Kieliszek",
             description: "Wytrawne, białe/czerwone (150 ml)",
             price: "19 zł",
+            image: "/images/menu/winobialekieliszek.jpg",
             allergens: [12],
           },
           {
@@ -975,6 +1003,7 @@ export const menuData: MenuCategory[] = [
             name: "Prosecco",
             description: "150 ml",
             price: "19 zł",
+            image: "/images/menu/prosecco.jpg",
             allergens: [12],
           },
           {
@@ -982,6 +1011,7 @@ export const menuData: MenuCategory[] = [
             name: "Prosecco Free",
             description: "Kieliszek (150 ml)",
             price: "19 zł",
+            image: "/images/menu/prosecco.jpg",
             allergens: [],
           },
           {
@@ -1111,6 +1141,7 @@ export const menuData: MenuCategory[] = [
             name: "Porn Star Martini",
             description: "Distil No.9 / prosecco / puree marakuja / syrop waniliowy / sok z cytryny",
             price: "37 zł",
+            image: "/images/menu/pornstarmartini.jpg",
             allergens: [1, 12],
           },
           {
@@ -1118,6 +1149,7 @@ export const menuData: MenuCategory[] = [
             name: "Negroni",
             description: "Whitley Neill gin London dry / Martini rosso / Campari",
             price: "35 zł",
+            image: "/images/menu/negroni.jpg",
             allergens: [12],
           },
           {
@@ -1125,6 +1157,7 @@ export const menuData: MenuCategory[] = [
             name: "Arabian Nights Sour",
             description: "Bushmills original / wino czerwone / syrop cukrowy / białko / sok z cytryny / angostura",
             price: "35 zł",
+            image: "/images/menu/arabiannightsour.jpg",
             allergens: [3, 12],
           },
           {
@@ -1132,6 +1165,7 @@ export const menuData: MenuCategory[] = [
             name: "Aperol Spritz",
             description: "Aperol / prosecco / woda gazowana / pomarańcza",
             price: "35 zł",
+            image: "/images/menu/aperolspritz_i_orangespritzfree.jpg",
             allergens: [12],
           },
           {
@@ -1139,6 +1173,7 @@ export const menuData: MenuCategory[] = [
             name: "Mojito",
             description: "Planteray dark / cukier trzcinowy / limonka / mięta / woda gazowana",
             price: "35 zł",
+            image: "/images/menu/mojito.jpg",
             allergens: [],
           },
           {
@@ -1146,6 +1181,7 @@ export const menuData: MenuCategory[] = [
             name: "Mango Frizz",
             description: "Prosecco / syrop mango / woda z kwiatów pomarańczy / woda gazowana",
             price: "35 zł",
+            image: "/images/menu/mangofrizz.jpg",
             allergens: [12],
           },
           {
@@ -1154,6 +1190,7 @@ export const menuData: MenuCategory[] = [
             description:
               "Likier melon / puree marakuja / woda z kwiatów pomarańczy / sok z cytryny / syrop cukrowy / białko",
             price: "35 zł",
+            image: "/images/menu/sweetsahara.jpg",
             allergens: [3],
           },
           {
@@ -1162,12 +1199,14 @@ export const menuData: MenuCategory[] = [
             description:
               "Jagermeister / czerwone wino / sok jabłkowy / puree z gruszki / sok z cytryny / melasa z daktyli",
             price: "34 zł",
+            image: "/images/menu/asmar.jpg",
           },
           {
             id: "whisky-sour-basma",
             name: "Whisky Sour by BASMA",
             description: "Bushmills original / syrop z granatu / białko / angostura / sok z cytryny",
             price: "32 zł",
+            image: "/images/menu/whiskysourbybasma.jpg",
             allergens: [3],
           },
           {
@@ -1182,6 +1221,7 @@ export const menuData: MenuCategory[] = [
             name: "Basma Martini",
             description: "Distil No.9 / puree lychee / sok z cytryny / syrop różany",
             price: "32 zł",
+            image: "/images/menu/basmamartini.jpg",
             allergens: [],
           },
           {
@@ -1189,6 +1229,7 @@ export const menuData: MenuCategory[] = [
             name: "Nour",
             description: "Martini bianco / puree z gruszki / syrop waniliowy / kardamon",
             price: "29 zł",
+            image: "/images/menu/nour.jpg",
           },
           {
             id: "ginger-girl",
@@ -1196,6 +1237,7 @@ export const menuData: MenuCategory[] = [
             description:
               "Whitley Neill gin London dry / woda z kwiatów pomarańczy / syrop waniliowy / sok z cytryny / imbir / woda gazowana",
             price: "29 zł",
+            image: "/images/menu/gingergirl.jpg",
             allergens: [12],
           },
         ],
